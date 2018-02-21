@@ -1,13 +1,13 @@
 <?php
 
-namespace SprykerShop\Yves\CustomerPage\Dependency\Plugin\CartNotesWidget;
+namespace SprykerShop\Yves\CustomerPage\Dependency\Plugin\CartNoteWidget;
 
 use Generated\Shared\Transfer\OrderTransfer;
 use Spryker\Yves\Kernel\Dependency\Plugin\WidgetPluginInterface;
 
-interface CartNotesOrderNoteWidgetPluginInterface extends WidgetPluginInterface
+interface CartNoteOrderNoteWidgetPluginInterface extends WidgetPluginInterface
 {
-    const NAME = 'CartNotesOrderNoteWidgetPlugin';
+    const NAME = 'CartNoteOrderNoteWidgetPlugin';
 
     /**
      * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
