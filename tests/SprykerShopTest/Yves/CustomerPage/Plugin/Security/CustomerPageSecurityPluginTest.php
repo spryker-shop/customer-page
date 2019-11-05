@@ -5,15 +5,15 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerShop\Yves\CustomerPage\Plugin\Security;
+namespace SprykerShopTest\Yves\CustomerPage\Plugin\Security;
 
 use Codeception\Stub;
 use Codeception\Test\Unit;
-use Spryker\Client\Customer\CustomerDependencyProvider;
-use Spryker\Client\CustomerAccessPermission\Plugin\Customer\CustomerAccessSecuredPatternRulePlugin;
 use Spryker\Client\Storage\StorageDependencyProvider;
 use Spryker\Client\StorageRedis\Plugin\StorageRedisPlugin;
 use Spryker\Yves\Messenger\FlashMessenger\FlashMessengerInterface;
+use SprykerShop\Yves\CustomerPage\CustomerPageDependencyProvider;
+use SprykerShop\Yves\CustomerPage\Plugin\Security\CustomerPageSecurityPlugin;
 use Symfony\Component\HttpFoundation\Response;
 
 class CustomerPageSecurityPluginTest extends Unit
@@ -31,17 +31,18 @@ class CustomerPageSecurityPluginTest extends Unit
         parent::setUp();
 
         $container = $this->tester->getContainer();
-        $this->tester->setDependency(CustomerDependencyProvider::PLUGINS_CUSTOMER_SECURED_PATTERN_RULE, [new CustomerAccessSecuredPatternRulePlugin()]);
+        $container->set('flash_messenger', function () {
+            return Stub::makeEmpty(FlashMessengerInterface::class);
+        });
         $this->tester->setDependency(StorageDependencyProvider::PLUGIN_STORAGE, new StorageRedisPlugin());
-        $this->tester->mockFactoryMethod('getFlashMessenger', Stub::makeEmpty(FlashMessengerInterface::class));
-        $this->tester->mockFactoryMethod('getApplication', $container);
+        $this->tester->setDependency(CustomerPageDependencyProvider::PLUGIN_APPLICATION, $container);
 
         $this->tester->addRoute('home', '/', function () use ($container) {
             if ($container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
                 return new Response('authenticated');
             }
 
-            return new Response('homepage');
+            return new Response('unauthorized');
         });
         $this->tester->addRoute('login', '/login', function () {
             return new Response('loginpage');
@@ -85,10 +86,9 @@ class CustomerPageSecurityPluginTest extends Unit
         $container->get('session')->start();
 
         $httpKernelBrowser = $this->tester->getHttpKernelBrowser();
-        $httpKernelBrowser->request('get', '/');
         $httpKernelBrowser->request('post', '/login_check', ['loginForm' => ['email' => $customerTransfer->getEmail(), 'password' => 'bar']]);
         $httpKernelBrowser->followRedirect();
 
-        $this->assertSame('homepage', $httpKernelBrowser->getResponse()->getContent());
+        $this->assertSame('unauthorized', $httpKernelBrowser->getResponse()->getContent());
     }
 }
