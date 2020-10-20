@@ -8,7 +8,7 @@
 namespace SprykerShop\Yves\CustomerPage\Controller;
 
 use Generated\Shared\Transfer\CustomerTransfer;
-use SprykerShop\Yves\CustomerPage\Plugin\Router\CustomerPageRouteProviderPlugin;
+use SprykerShop\Yves\CustomerPage\Plugin\Provider\CustomerPageControllerProvider;
 use Symfony\Component\HttpFoundation\Request;
 
 class ProfileController extends AbstractCustomerController
@@ -57,7 +57,7 @@ class ProfileController extends AbstractCustomerController
         }
 
         if ($profileForm->isSubmitted() && $profileForm->isValid() && $this->processProfileUpdate($profileForm->getData()) === true) {
-            return $this->redirectResponseInternal(CustomerPageRouteProviderPlugin::ROUTE_NAME_CUSTOMER_PROFILE);
+            return $this->redirectResponseInternal(CustomerPageControllerProvider::ROUTE_CUSTOMER_PROFILE);
         }
 
         $passwordForm = $this
@@ -67,7 +67,7 @@ class ProfileController extends AbstractCustomerController
             ->handleRequest($request);
 
         if ($passwordForm->isSubmitted() && $passwordForm->isValid() && $this->processPasswordUpdate($passwordForm->getData()) === true) {
-            return $this->redirectResponseInternal(CustomerPageRouteProviderPlugin::ROUTE_NAME_CUSTOMER_PROFILE);
+            return $this->redirectResponseInternal(CustomerPageControllerProvider::ROUTE_CUSTOMER_PROFILE);
         }
 
         return [
@@ -123,13 +123,7 @@ class ProfileController extends AbstractCustomerController
             ->updateCustomerPassword($customerTransfer);
 
         if ($customerResponseTransfer->getIsSuccess()) {
-            $customerTransfer = $customerResponseTransfer->getCustomerTransfer();
-            $this->updateLoggedInCustomerTransfer($customerTransfer);
-            $token = $this->getFactory()->createUsernamePasswordToken($customerTransfer);
-
-            $this->getFactory()
-                ->createCustomerAuthenticator()
-                ->authenticateCustomer($customerTransfer, $token);
+            $this->updateLoggedInCustomerTransfer($customerResponseTransfer->getCustomerTransfer());
 
             $this->addSuccessMessage(self::MESSAGE_PASSWORD_CHANGE_SUCCESS);
 

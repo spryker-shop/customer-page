@@ -19,7 +19,7 @@ use Twig\Environment;
 class CustomerTwigPlugin extends AbstractPlugin implements TwigPluginInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @api
      *

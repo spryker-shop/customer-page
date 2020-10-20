@@ -8,8 +8,9 @@
 namespace SprykerShop\Yves\CustomerPage\Security;
 
 use Generated\Shared\Transfer\CustomerTransfer;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class Customer implements CustomerUserInterface
+class Customer implements UserInterface
 {
     /**
      * @var \Generated\Shared\Transfer\CustomerTransfer
@@ -46,7 +47,7 @@ class Customer implements CustomerUserInterface
     }
 
     /**
-     * @return string[]
+     * @return \Symfony\Component\Security\Core\Role\Role[]
      */
     public function getRoles()
     {
@@ -89,7 +90,7 @@ class Customer implements CustomerUserInterface
     /**
      * @return \Generated\Shared\Transfer\CustomerTransfer
      */
-    public function getCustomerTransfer(): CustomerTransfer
+    public function getCustomerTransfer()
     {
         return $this->customerTransfer;
     }

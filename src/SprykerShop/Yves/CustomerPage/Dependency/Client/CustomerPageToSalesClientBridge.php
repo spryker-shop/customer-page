@@ -7,11 +7,10 @@
 
 namespace SprykerShop\Yves\CustomerPage\Dependency\Client;
 
-use Exception;
 use Generated\Shared\Transfer\OrderListTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 
-class CustomerPageToSalesClientAdapter implements CustomerPageToSalesClientInterface
+class CustomerPageToSalesClientBridge implements CustomerPageToSalesClientInterface
 {
     /**
      * @var \Spryker\Client\Sales\SalesClientInterface
@@ -38,24 +37,12 @@ class CustomerPageToSalesClientAdapter implements CustomerPageToSalesClientInter
 
     /**
      * @param \Generated\Shared\Transfer\OrderListTransfer $orderListTransfer
-     * @param bool|null $isOrderSearchEnabled
-     *
-     * @throws \Exception
      *
      * @return \Generated\Shared\Transfer\OrderListTransfer
      */
-    public function getPaginatedCustomerOrdersOverview(OrderListTransfer $orderListTransfer, ?bool $isOrderSearchEnabled = false): OrderListTransfer
+    public function getPaginatedCustomerOrdersOverview(OrderListTransfer $orderListTransfer): OrderListTransfer
     {
-        // For BC reasons
-        if (!$isOrderSearchEnabled) {
-            return $this->salesClient->getPaginatedCustomerOrdersOverview($orderListTransfer);
-        }
-
-        if (method_exists($this->salesClient, 'searchOrders')) {
-            return $this->salesClient->searchOrders($orderListTransfer);
-        }
-
-        throw new Exception('Order Search works since v11.*');
+        return $this->salesClient->getPaginatedCustomerOrdersOverview($orderListTransfer);
     }
 
     /**

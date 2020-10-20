@@ -45,7 +45,6 @@ class CustomerStepHandler extends AbstractPlugin implements StepHandlerPluginInt
         foreach ($this->authenticationHandlerPlugins as $authHandlerPlugin) {
             if ($authHandlerPlugin->canHandle($quoteTransfer)) {
                 $quoteTransfer = $authHandlerPlugin->addToQuote($quoteTransfer);
-
                 break;
             }
         }

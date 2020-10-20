@@ -10,7 +10,7 @@ namespace SprykerShop\Yves\CustomerPage\Controller;
 use Generated\Shared\Transfer\CustomerTransfer;
 use Generated\Shared\Transfer\FilterTransfer;
 use Generated\Shared\Transfer\OrderListTransfer;
-use SprykerShop\Yves\CustomerPage\Plugin\Router\CustomerPageRouteProviderPlugin;
+use SprykerShop\Yves\CustomerPage\Plugin\Provider\CustomerPageControllerProvider;
 
 /**
  * @method \SprykerShop\Yves\CustomerPage\CustomerPageFactory getFactory()
@@ -105,20 +105,22 @@ class CustomerController extends AbstractCustomerController
     protected function executeIndexAction()
     {
         $loggedInCustomerTransfer = $this->getLoggedInCustomerTransfer();
+        $customerTransfer = $this
+            ->getFactory()
+            ->getCustomerClient()
+            ->getCustomerByEmail($loggedInCustomerTransfer);
 
-        if (!$loggedInCustomerTransfer->getIdCustomer()) {
-            return $this->redirectResponseInternal(CustomerPageRouteProviderPlugin::ROUTE_NAME_LOGOUT);
+        if (!$customerTransfer->getIdCustomer()) {
+            return $this->redirectResponseInternal(CustomerPageControllerProvider::ROUTE_LOGOUT);
         }
 
-        $orderListTransfer = $this->createOrderListTransfer($loggedInCustomerTransfer);
+        $orderListTransfer = $this->createOrderListTransfer($customerTransfer);
         $orderList = $this->getFactory()->getSalesClient()->getPaginatedCustomerOrdersOverview($orderListTransfer);
-        $aggregatedDisplayNames = $this->getFactory()->createItemStateMapper()->aggregateItemStatesDisplayNamesByOrderReference($orderList->getOrders());
 
         return [
-            'customer' => $loggedInCustomerTransfer,
+            'customer' => $customerTransfer,
             'orderList' => $orderList->getOrders(),
-            'ordersAggregatedItemStateDisplayNames' => $aggregatedDisplayNames,
-            'addresses' => $this->getDefaultAddresses($loggedInCustomerTransfer),
+            'addresses' => $this->getDefaultAddresses($customerTransfer),
         ];
     }
 }

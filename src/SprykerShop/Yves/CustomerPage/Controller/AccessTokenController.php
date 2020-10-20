@@ -7,7 +7,6 @@
 
 namespace SprykerShop\Yves\CustomerPage\Controller;
 
-use SprykerShop\Yves\CustomerPage\Plugin\Router\CustomerPageRouteProviderPlugin;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -18,7 +17,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class AccessTokenController extends AbstractCustomerController
 {
     /**
-     * @deprecated Use {@link \SprykerShop\Yves\CustomerPage\Plugin\Router\CustomerPageRouteProviderPlugin::ROUTE_NAME_CUSTOMER_OVERVIEW} instead.
+     * @uses \SprykerShop\Yves\CustomerPage\Plugin\Provider\CustomerPageControllerProvider::ROUTE_CUSTOMER_OVERVIEW
      */
     protected const ROUTE_CUSTOMER_OVERVIEW = 'customer/overview';
 
@@ -49,7 +48,7 @@ class AccessTokenController extends AbstractCustomerController
         if ($this->isLoggedInCustomer()) {
             $this->addErrorMessage(static::GLOSSARY_KEY_CUSTOMER_ALREADY_LOGGED_IN);
 
-            return $this->redirectResponseInternal(CustomerPageRouteProviderPlugin::ROUTE_NAME_CUSTOMER_OVERVIEW);
+            return $this->redirectResponseInternal(static::ROUTE_CUSTOMER_OVERVIEW);
         }
 
         $customerResponseTransfer = $this
@@ -70,6 +69,6 @@ class AccessTokenController extends AbstractCustomerController
             ->createCustomerAuthenticator()
             ->authenticateCustomer($customerTransfer, $token);
 
-        return $this->redirectResponseInternal(CustomerPageRouteProviderPlugin::ROUTE_NAME_CUSTOMER_OVERVIEW);
+        return $this->redirectResponseInternal(static::ROUTE_CUSTOMER_OVERVIEW);
     }
 }

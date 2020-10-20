@@ -12,7 +12,6 @@ use Spryker\Yves\Kernel\AbstractPlugin;
 
 /**
  * @method \SprykerShop\Yves\CustomerPage\CustomerPageFactory getFactory()
- * @method \SprykerShop\Yves\CustomerPage\CustomerPageConfig getConfig()
  */
 class AuthenticationHandler extends AbstractPlugin
 {
@@ -42,9 +41,7 @@ class AuthenticationHandler extends AbstractPlugin
             ->registerCustomer($customerTransfer);
 
         if ($customerResponseTransfer->getIsSuccess()) {
-            if (!$this->getConfig()->isDoubleOptInEnabled()) {
-                $this->loginAfterSuccessfulRegistration($customerResponseTransfer->getCustomerTransfer());
-            }
+            $this->loginAfterSuccessfulRegistration($customerResponseTransfer->getCustomerTransfer());
         }
 
         return $customerResponseTransfer;

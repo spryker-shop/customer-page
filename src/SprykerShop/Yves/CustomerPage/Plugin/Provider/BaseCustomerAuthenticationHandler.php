@@ -8,7 +8,7 @@
 namespace SprykerShop\Yves\CustomerPage\Plugin\Provider;
 
 use Spryker\Yves\Kernel\AbstractPlugin;
-use SprykerShop\Yves\HomePage\Plugin\Router\HomePageRouteProviderPlugin;
+use SprykerShop\Yves\HomePage\Plugin\Provider\HomePageControllerProvider;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -20,41 +20,38 @@ class BaseCustomerAuthenticationHandler extends AbstractPlugin
 {
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param string|null $defaultRedirectUrl
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    protected function createRefererRedirectResponse(Request $request, ?string $defaultRedirectUrl = null)
+    protected function createRefererRedirectResponse(Request $request)
     {
         $targetUrl = $this->filterUrl(
-            $this->getConfig()->loginFailureRedirectUrl() ?? $request->headers->get('Referer'),
+            $request->headers->get('Referer'),
             $this->getConfig()->getYvesHost(),
-            $defaultRedirectUrl ?? $this->getHomeUrl()
+            $this->getHomeUrl()
         );
 
-        return $this->getFactory()->createRedirectResponse($targetUrl);
+        $response = $this->getFactory()->createRedirectResponse($targetUrl);
+
+        return $response;
     }
 
     /**
-     * @param string|null $redirectUrl
+     * @param string|null $refererUrl
      * @param string $allowedHost
      * @param string $fallbackUrl
      *
      * @return string|null
      */
-    protected function filterUrl($redirectUrl, $allowedHost, $fallbackUrl)
+    protected function filterUrl($refererUrl, $allowedHost, $fallbackUrl)
     {
-        if ($redirectUrl === null) {
+        if ($refererUrl === null) {
             return $fallbackUrl;
         }
 
-        if (strpos($redirectUrl, '/') === 0) {
-            return $redirectUrl;
-        }
-
         $allowedUrl = sprintf('#^(?P<scheme>http|https)://%s/(?P<uri>.*)$#', $allowedHost);
-        $isRedirectUrlAllowed = (bool)preg_match($allowedUrl, $redirectUrl, $matches);
-        if ($isRedirectUrlAllowed) {
+        $isRefererUrlAllowed = (bool)preg_match($allowedUrl, $refererUrl, $matches);
+        if ($isRefererUrlAllowed) {
             return sprintf('%s://%s/%s', $matches['scheme'], $allowedHost, $matches['uri']);
         }
 
@@ -62,12 +59,10 @@ class BaseCustomerAuthenticationHandler extends AbstractPlugin
     }
 
     /**
-     * @deprecated The `application` is deprecated and should not be accessed.
-     *
      * @return string
      */
     protected function getHomeUrl()
     {
-        return $this->getFactory()->getRouter()->generate(HomePageRouteProviderPlugin::ROUTE_NAME_HOME);
+        return $this->getFactory()->getApplication()->url(HomePageControllerProvider::ROUTE_HOME);
     }
 }

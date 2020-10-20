@@ -7,19 +7,7 @@
 
 namespace SprykerShop\Shared\CustomerPage;
 
-use Spryker\Shared\Kernel\AbstractSharedConfig;
-
-class CustomerPageConfig extends AbstractSharedConfig
+class CustomerPageConfig
 {
     public const SECURITY_FIREWALL_NAME = 'secured';
-
-    /**
-     * Specification:
-     * - Shipment expense type name.
-     *
-     * @api
-     *
-     * @see \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_EXPENSE_TYPE.
-     */
-    public const SHIPMENT_EXPENSE_TYPE = 'SHIPMENT_EXPENSE_TYPE';
 }

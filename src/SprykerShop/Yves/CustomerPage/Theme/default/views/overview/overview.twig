@@ -1,10 +1,7 @@
-{# @var _view.customer \Generated\Shared\Transfer\CustomerTransfer #}
-
 {% extends template('page-layout-customer', 'CustomerPage') %}
 
 {% define data = {
     orders: _view.orderList,
-    ordersAggregatedItemStateDisplayNames: _view.ordersAggregatedItemStateDisplayNames | default([]),
     customer: _view.customer,
     billingAddress: _view.addresses.billing | default,
     shippingAddress: _view.addresses.shipping | default,
@@ -25,8 +22,7 @@
         <hr class="box__separator">
         {% include molecule('order-table', 'CustomerPage') with {
             data: {
-                orders: data.orders,
-                ordersAggregatedItemStateDisplayNames: data.ordersAggregatedItemStateDisplayNames,
+                orders: data.orders
             }
         } only %}
     </div>

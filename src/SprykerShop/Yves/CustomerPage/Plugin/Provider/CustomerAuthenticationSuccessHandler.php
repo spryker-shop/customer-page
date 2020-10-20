@@ -9,6 +9,7 @@ namespace SprykerShop\Yves\CustomerPage\Plugin\Provider;
 
 use Generated\Shared\Transfer\CustomerTransfer;
 use Spryker\Yves\Kernel\AbstractPlugin;
+use SprykerShop\Yves\HomePage\Plugin\Provider\HomePageControllerProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
@@ -18,11 +19,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerI
  */
 class CustomerAuthenticationSuccessHandler extends AbstractPlugin implements AuthenticationSuccessHandlerInterface
 {
-    /**
-     * @see HomePageRouteProviderPlugin::ROUTE_HOME
-     */
-    protected const ROUTE_HOME = 'home';
-
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token
@@ -79,7 +75,7 @@ class CustomerAuthenticationSuccessHandler extends AbstractPlugin implements Aut
             return (string)$request->headers->get('Referer');
         }
 
-        return static::ROUTE_HOME;
+        return HomePageControllerProvider::ROUTE_HOME;
     }
 
     /**

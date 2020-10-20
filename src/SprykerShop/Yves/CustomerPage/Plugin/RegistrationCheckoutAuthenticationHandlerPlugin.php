@@ -13,7 +13,6 @@ use Spryker\Yves\Kernel\AbstractPlugin;
 
 /**
  * @method \SprykerShop\Yves\CustomerPage\CustomerPageFactory getFactory()
- * @method \SprykerShop\Yves\CustomerPage\CustomerPageConfig getConfig()
  */
 class RegistrationCheckoutAuthenticationHandlerPlugin extends AbstractPlugin implements CheckoutAuthenticationHandlerPluginInterface
 {
@@ -31,12 +30,6 @@ class RegistrationCheckoutAuthenticationHandlerPlugin extends AbstractPlugin imp
         $this->processErrorMessages($customerResponseTransfer);
 
         if ($customerResponseTransfer->getIsSuccess() === true) {
-            if ($this->getConfig()->isDoubleOptInEnabled()) {
-                $this->getMessenger()->addSuccessMessage($customerResponseTransfer->getMessage()->getValue());
-
-                return $quoteTransfer;
-            }
-
             $quoteTransfer = $this->getQuoteClient()->getQuote();
             $quoteTransfer->setCustomer($customerResponseTransfer->getCustomerTransfer());
         }
@@ -61,7 +54,7 @@ class RegistrationCheckoutAuthenticationHandlerPlugin extends AbstractPlugin imp
      */
     protected function getMessenger()
     {
-        return $this->getFactory()->getFlashMessenger();
+        return $this->getFactory()->getMessenger();
     }
 
     /**

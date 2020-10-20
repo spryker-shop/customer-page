@@ -18,10 +18,6 @@ use Symfony\Component\Security\Http\Firewall\ExceptionListener;
 use Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener;
 
 /**
- * @deprecated Will be removed with the next major release.
- *
- * @see \SprykerShop\Yves\CustomerPage\Plugin\Security\CustomerPageSecurityPlugin
- *
  * @method \Spryker\Client\Customer\CustomerClientInterface getClient()
  * @method \SprykerShop\Yves\CustomerPage\CustomerPageFactory getFactory()
  */
@@ -72,6 +68,9 @@ class CustomerSecurityServiceProvider extends AbstractPlugin implements ServiceP
                     'username_parameter' => LoginForm::FORM_NAME . '[' . LoginForm::FIELD_EMAIL . ']',
                     'password_parameter' => LoginForm::FORM_NAME . '[' . LoginForm::FIELD_PASSWORD . ']',
                     'listener_class' => UsernamePasswordFormAuthenticationListener::class,
+                    'with_csrf' => true,
+                    'csrf_parameter' => LoginForm::FORM_NAME . '[_token]',
+                    'csrf_token_id' => LoginForm::FORM_NAME,
                 ],
                 'logout' => [
                     'logout_path' => $this->buildLogoutPath($selectedLanguage),

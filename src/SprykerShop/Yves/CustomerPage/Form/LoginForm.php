@@ -8,7 +8,6 @@
 namespace SprykerShop\Yves\CustomerPage\Form;
 
 use Spryker\Yves\Kernel\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,10 +23,9 @@ class LoginForm extends AbstractType
 
     public const FIELD_EMAIL = 'email';
     public const FIELD_PASSWORD = 'password';
-    public const FIELD_REMEMBER_ME = 'remember_me';
 
     protected const VALIDATION_NOT_BLANK_MESSAGE = 'validation.not_blank';
-    protected const VALIDATION_EMAIL_MESSAGE = 'validation.email';
+    protected const VALIODATION_EMAIL_MESSAGE = 'validation.email';
 
     /**
      * @return string
@@ -49,8 +47,7 @@ class LoginForm extends AbstractType
 
         $this
             ->addEmailField($builder)
-            ->addPasswordField($builder)
-            ->addRememberMeField($builder);
+            ->addPasswordField($builder);
     }
 
     /**
@@ -90,22 +87,6 @@ class LoginForm extends AbstractType
     }
 
     /**
-     * @param \Symfony\Component\Form\FormBuilderInterface $builder
-     *
-     * @return $this
-     */
-    protected function addRememberMeField(FormBuilderInterface $builder)
-    {
-        $builder->add(static::FIELD_REMEMBER_ME, CheckboxType::class, [
-            'label' => 'customer.login.remember_me',
-            'required' => false,
-            'mapped' => false,
-        ]);
-
-        return $this;
-    }
-
-    /**
      * @return \Symfony\Component\Validator\Constraints\NotBlank
      */
     protected function createNotBlankConstraint(): NotBlank
@@ -118,6 +99,6 @@ class LoginForm extends AbstractType
      */
     protected function createEmailConstraint(): Email
     {
-        return new Email(['message' => static::VALIDATION_EMAIL_MESSAGE]);
+        return new Email(['message' => static::VALIODATION_EMAIL_MESSAGE]);
     }
 }
