@@ -17,7 +17,7 @@ class CustomerPageConfig extends AbstractBundleConfig
     /**
      * @uses \Spryker\Zed\Customer\CustomerConfig::MIN_LENGTH_CUSTOMER_PASSWORD
      */
-    protected const MIN_LENGTH_CUSTOMER_PASSWORD = 1;
+    protected const MIN_LENGTH_CUSTOMER_PASSWORD = 8;
 
     protected const IS_ORDER_HISTORY_SEARCH_ENABLED = false;
 
@@ -38,7 +38,7 @@ class CustomerPageConfig extends AbstractBundleConfig
     /**
      * @uses \Spryker\Zed\Customer\CustomerConfig::MAX_LENGTH_CUSTOMER_PASSWORD
      */
-    protected const MAX_LENGTH_CUSTOMER_PASSWORD = 72;
+    protected const MAX_LENGTH_CUSTOMER_PASSWORD = 18;
 
     /**
      * @api
