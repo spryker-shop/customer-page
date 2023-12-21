@@ -9,14 +9,24 @@ namespace SprykerShopTest\Yves\CustomerPage\Plugin\Security;
 
 use Codeception\Stub;
 use Codeception\Test\Unit;
+use ReflectionClass;
 use Spryker\Client\Storage\StorageDependencyProvider;
 use Spryker\Client\StorageRedis\Plugin\StorageRedisPlugin;
 use Spryker\Yves\Messenger\FlashMessenger\FlashMessengerInterface;
+use Spryker\Yves\Security\Configurator\SecurityConfigurator;
 use SprykerShop\Yves\CustomerPage\CustomerPageDependencyProvider;
-use SprykerShop\Yves\CustomerPage\Plugin\Security\CustomerPageSecurityPlugin;
+use SprykerShop\Yves\CustomerPage\Plugin\Security\YvesCustomerPageSecurityPlugin;
 use Symfony\Component\HttpFoundation\Response;
 
-class CustomerPageSecurityPluginTest extends Unit
+/**
+ * @group SprykerShop
+ * @group Yves
+ * @group CustomerPage
+ * @group Plugin
+ * @group Security
+ * @group YvesCustomerPageSecurityPluginTest
+ */
+class YvesCustomerPageSecurityPluginTest extends Unit
 {
     /**
      * @uses \Spryker\Yves\Locale\Plugin\Application\LocaleApplicationPlugin::SERVICE_LOCALE
@@ -37,8 +47,8 @@ class CustomerPageSecurityPluginTest extends Unit
     {
         parent::setUp();
 
-        if ($this->tester->isSymfonyVersion5() !== true) {
-            $this->markTestSkipped('Compatible only with `symfony/security-core` package version ^5.0.0. To be removed once Symfony 5 support is discontinued.');
+        if ($this->tester->isSymfonyVersion5() === true) {
+            $this->markTestSkipped('Compatible only with `symfony/security-core` package version >= 6. Will be enabled by default once Symfony 5 support is discontinued.');
         }
 
         $container = $this->tester->getContainer();
@@ -58,6 +68,11 @@ class CustomerPageSecurityPluginTest extends Unit
         $this->tester->addRoute('login', '/login', function () {
             return new Response('loginpage');
         });
+
+        $reflection = new ReflectionClass(SecurityConfigurator::class);
+        $property = $reflection->getProperty('securityConfiguration');
+        $property->setAccessible(true);
+        $property->setValue(null);
     }
 
     /**
@@ -65,20 +80,26 @@ class CustomerPageSecurityPluginTest extends Unit
      */
     public function testCustomerCanLogin(): void
     {
+        // Arrange
         $container = $this->tester->getContainer();
         $customerTransfer = $this->tester->haveCustomer(['password' => 'foo']);
 
-        $securityPlugin = new CustomerPageSecurityPlugin();
+        $securityPlugin = new YvesCustomerPageSecurityPlugin();
         $securityPlugin->setFactory($this->tester->getFactory());
         $this->tester->addSecurityPlugin($securityPlugin);
+        $this->tester->mockSecurityDependencies();
+        $this->tester->enableSecurityApplicationPlugin();
 
         $container->get('session')->start();
         $container->set(CustomerPageDependencyProvider::SERVICE_LOCALE, 'en_US');
+
+        // Act
         $httpKernelBrowser = $this->tester->getHttpKernelBrowser();
         $httpKernelBrowser->request('get', '/');
         $httpKernelBrowser->request('post', '/login_check', ['loginForm' => ['email' => $customerTransfer->getEmail(), 'password' => 'foo']]);
         $httpKernelBrowser->followRedirect();
 
+        // Assert
         $this->assertSame('authenticated', $httpKernelBrowser->getResponse()->getContent());
     }
 
@@ -87,20 +108,25 @@ class CustomerPageSecurityPluginTest extends Unit
      */
     public function testCustomerAccessDenied(): void
     {
+        // Arrange
         $container = $this->tester->getContainer();
         $customerTransfer = $this->tester->haveCustomer(['password' => 'foo']);
 
-        $securityPlugin = new CustomerPageSecurityPlugin();
+        $securityPlugin = new YvesCustomerPageSecurityPlugin();
         $securityPlugin->setFactory($this->tester->getFactory());
         $this->tester->addSecurityPlugin($securityPlugin);
+        $this->tester->mockSecurityDependencies();
+        $this->tester->enableSecurityApplicationPlugin();
 
         $container->get('session')->start();
         $container->set(CustomerPageDependencyProvider::SERVICE_LOCALE, 'en_US');
 
+        // Act
         $httpKernelBrowser = $this->tester->getHttpKernelBrowser();
         $httpKernelBrowser->request('post', '/login_check', ['loginForm' => ['email' => $customerTransfer->getEmail(), 'password' => 'bar']]);
         $httpKernelBrowser->followRedirect();
 
+        // Assert
         $this->assertSame('unauthorized', $httpKernelBrowser->getResponse()->getContent());
     }
 }
