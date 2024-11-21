@@ -19,7 +19,7 @@ class CustomerPageConfig extends AbstractBundleConfig
      *
      * @var int
      */
-    protected const MIN_LENGTH_CUSTOMER_PASSWORD = 1;
+    protected const MIN_LENGTH_CUSTOMER_PASSWORD = 8;
 
     /**
      * @var bool
@@ -63,7 +63,7 @@ class CustomerPageConfig extends AbstractBundleConfig
      *
      * @var int
      */
-    protected const MAX_LENGTH_CUSTOMER_PASSWORD = 72;
+    protected const MAX_LENGTH_CUSTOMER_PASSWORD = 18;
 
     /**
      * Specification:
