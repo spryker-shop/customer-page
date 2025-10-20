@@ -17,4 +17,4 @@ parameters:
         -
             identifier: missingType.generics
     excludePaths:
-        - '%rootDir%/../../../vendor/spryker/spryker-shop/Bundles/CustomerPage/src/SprykerShop/Yves/CustomerPage/UserChecker/InMemoryUserChecker.php'
+        - '%rootDir%/../../../src/SprykerShop/CustomerPage/src/SprykerShop/Yves/CustomerPage/UserChecker/InMemoryUserChecker.php'
