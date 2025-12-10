@@ -8,7 +8,9 @@
 namespace SprykerShop\Yves\CustomerPage\Badge;
 
 use Generated\Shared\Transfer\CustomerTransfer;
+use Generated\Shared\Transfer\MultiFactorAuthTransfer;
 use Generated\Shared\Transfer\MultiFactorAuthValidationRequestTransfer;
+use SprykerShop\Yves\CustomerPageExtension\Dependency\Plugin\AuthenticationCodeInvalidatorPluginInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
 
@@ -123,13 +125,22 @@ class MultiFactorAuthBadge implements BadgeInterface
                 continue;
             }
 
-            $multiFactorAuthValidationRequestTransfer = (new MultiFactorAuthValidationRequestTransfer())->setCustomer($customerTransfer);
+            $multiFactorAuthValidationRequestTransfer = (new MultiFactorAuthValidationRequestTransfer())
+                ->setCustomer($customerTransfer)
+                ->setIsLogin(true);
             $multiFactorAuthValidationResponseTransfer = $plugin->validateCustomerMultiFactorStatus($multiFactorAuthValidationRequestTransfer);
 
-            if ($multiFactorAuthValidationResponseTransfer->getIsRequired() === true && $this->isRequestCorrupted($request)) {
-                $this->setIsResolved(false);
+            if ($multiFactorAuthValidationResponseTransfer->getIsRequired() === true) {
+                if ($plugin instanceof AuthenticationCodeInvalidatorPluginInterface) {
+                    $multiFactorAuthTransfer = (new MultiFactorAuthTransfer())->setCustomer($customerTransfer);
+                    $plugin->invalidateCustomerCodes($multiFactorAuthTransfer);
+                }
 
-                return $this;
+                if ($this->isRequestCorrupted($request)) {
+                    $this->setIsResolved(false);
+
+                    return $this;
+                }
             }
 
             $this->setIsRequired($multiFactorAuthValidationResponseTransfer->getIsRequired());

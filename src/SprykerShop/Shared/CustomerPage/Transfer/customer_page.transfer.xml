@@ -389,6 +389,11 @@
 
     <transfer name="MultiFactorAuthValidationRequest" strict="true">
         <property name="customer" type="Customer"/>
+        <property name="isLogin" type="bool"/>
+    </transfer>
+
+    <transfer name="MultiFactorAuth" strict="true">
+        <property name="customer" type="Customer"/>
     </transfer>
 
 </transfers>
