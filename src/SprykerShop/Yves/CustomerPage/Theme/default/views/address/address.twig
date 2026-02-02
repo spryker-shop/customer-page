@@ -9,32 +9,52 @@
 } %}
 
 {% block customerContent %}
-    <div class="box text-right">
-        <a class="button" href="{{url('customer/address/new')}}" {{qa('customer-add-new-address')}}>{{ 'customer.account.button.add_new_address' | trans }}</a>
-    </div>
+    {% if data.addresses | length %}
+        <div class="box text-right">
+            <a class="button" href="{{ url('customer/address/new') }}" {{ qa('customer-add-new-address')}} >{{ 'customer.account.button.add_new_address' | trans }}</a>
+        </div>
 
-    {% for address in data.addresses %}
-        <div class="box">
-            <ul class="menu menu--inline float-right">
-                <li class="menu__item">
-                    <a href="{{ url('customer/address/update', {'id': address.idCustomerAddress }) }}">
-                        {{ "customer.profile.address.edit" | trans }}
-                    </a>
-                </li>
-                <li class="menu__item">
-                    {% set customerDeleteForm = data.customerDeleteFormClone.getForm.createView %}
+        {% for address in data.addresses %}
+            <div class="box">
+                <ul class="menu menu--inline float-right">
+                    <li class="menu__item">
+                        <a href="{{ url('customer/address/update', {'id': address.idCustomerAddress }) }}">
+                            {{ "customer.profile.address.edit" | trans }}
+                        </a>
+                    </li>
+                    <li class="menu__item">
+                        {% set customerDeleteForm = data.customerDeleteFormClone.getForm.createView %}
 
-                    {{ form_start(customerDeleteForm, {'action': path('customer/address/delete', {'id': address.idCustomerAddress}) }) }}
-                        <button class="link" data-init-single-click>{{ "customer.profile.address.delete" | trans }}</button>
-                    {{ form_end(customerDeleteForm) }}
-                </li>
-            </ul>
+                        {{ form_start(customerDeleteForm, {'action': path('customer/address/delete', {'id': address.idCustomerAddress}) }) }}
+                            <button class="link" data-init-single-click>{{ "customer.profile.address.delete" | trans }}</button>
+                        {{ form_end(customerDeleteForm) }}
+                    </li>
+                </ul>
 
-            {% include molecule('display-address') with {
+                {% include molecule('display-address') with {
+                    data: {
+                        address: address,
+                    },
+                } only %}
+            </div>
+        {% endfor %}
+    {% else %}
+        {% block emptyState %}
+            {% include molecule('empty-state') with {
                 data: {
-                    address: address,
+                    title: 'customer.account.address.no-addresses' | trans,
+                    description: 'customer.account.address.no-addresses-description' | trans,
+                    iconName: 'globe-location-pin',
+                    actionButton: {
+                        text: 'customer.account.button.add_new_address' | trans,
+                        link: url('customer/address/new'),
+                        qa: 'customer-add-new-address',
+                        icon: {
+                            name: 'add',
+                        },
+                    },
                 },
             } only %}
-        </div>
-    {% endfor %}
+        {% endblock %}
+    {% endif %}
 {% endblock %}
