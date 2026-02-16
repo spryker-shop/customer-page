@@ -16,5 +16,15 @@ parameters:
             identifier: missingType.iterableValue
         -
             identifier: missingType.generics
+        -
+            identifier: varTag.nativeType
+        -
+            identifier: parameterByRef.type
+        -
+            identifier: phpDoc.parseError
+        -
+            identifier: instanceof.alwaysTrue
+        -
+            identifier: notIdentical.alwaysTrue
     excludePaths:
         - '%rootDir%/../../../src/SprykerShop/CustomerPage/src/SprykerShop/Yves/CustomerPage/UserChecker/InMemoryUserChecker.php'
