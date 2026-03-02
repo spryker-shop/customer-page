@@ -34,9 +34,6 @@ class AuthController extends AbstractCustomerController
         return $this->redirectResponseInternal(CustomerPageRouteProviderPlugin::ROUTE_NAME_CUSTOMER_OVERVIEW);
     }
 
-    /**
-     * @return string|null
-     */
     protected function getRedirectUrlFromPlugins(): ?string
     {
         $customerRedirectAfterLoginPlugins = $this->getFactory()->getAfterLoginCustomerRedirectPlugins();
@@ -56,9 +53,6 @@ class AuthController extends AbstractCustomerController
         return null;
     }
 
-    /**
-     * @return array
-     */
     protected function executeLoginAction(): array
     {
         $loginForm = $this

@@ -57,11 +57,6 @@ class CustomerSecurityOptionsBuilder implements CustomerSecurityOptionsBuilderIn
      */
     protected LoginCheckUrlFormatterInterface $loginCheckUrlFormatter;
 
-    /**
-     * @param \SprykerShop\Yves\CustomerPage\CustomerPageConfig $config
-     * @param \Symfony\Component\Security\Core\User\UserProviderInterface $userProvider
-     * @param \SprykerShop\Yves\CustomerPage\Formatter\LoginCheckUrlFormatterInterface $loginCheckUrlFormatter
-     */
     public function __construct(
         CustomerPageConfig $config,
         UserProviderInterface $userProvider,

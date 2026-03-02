@@ -46,11 +46,6 @@ class ShipmentExpander implements ShipmentExpanderInterface
         return $quoteTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteTransfer
-     */
     protected function setShipmentForItemsInBundle(QuoteTransfer $quoteTransfer): QuoteTransfer
     {
         $indexedShipmentTransfers = $this->indexBundleItemShipmentsByBundleItemIdentifier(

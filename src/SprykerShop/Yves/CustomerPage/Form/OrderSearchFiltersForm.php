@@ -27,11 +27,6 @@ class OrderSearchFiltersForm extends AbstractType
      */
     public const FIELD_DATE_TO = 'dateTo';
 
-    /**
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
-     *
-     * @return void
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);

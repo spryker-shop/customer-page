@@ -18,12 +18,6 @@ use SprykerShop\Yves\CustomerPage\Widget\CustomerNavigationWidget;
  */
 class CustomerNavigationWidgetPlugin extends AbstractWidgetPlugin implements CustomerNavigationWidgetPluginInterface
 {
-    /**
-     * @param string $activePage
-     * @param int|null $activeEntityId
-     *
-     * @return void
-     */
     public function initialize(string $activePage, ?int $activeEntityId = null): void
     {
         $widget = new CustomerNavigationWidget($activePage, $activeEntityId);

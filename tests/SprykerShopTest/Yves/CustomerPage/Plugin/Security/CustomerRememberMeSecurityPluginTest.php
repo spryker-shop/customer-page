@@ -64,9 +64,6 @@ class CustomerRememberMeSecurityPluginTest extends Unit
      */
     protected CustomerPageTester $tester;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -79,9 +76,6 @@ class CustomerRememberMeSecurityPluginTest extends Unit
         $this->tester->setDependency(CustomerPageDependencyProvider::SERVICE_LOCALE, 'en_US');
     }
 
-    /**
-     * @return void
-     */
     public function testRememberMeAuthentication(): void
     {
         //Arrange
@@ -109,9 +103,6 @@ class CustomerRememberMeSecurityPluginTest extends Unit
         $this->assertNull($httpKernelBrowser->getCookiejar()->get(static::REMEMBERME), 'The REMEMBERME cookie has not been removed yet');
     }
 
-    /**
-     * @return void
-     */
     protected function addAuthentication(): void
     {
         $securityConfiguration = new SecurityConfiguration();
@@ -152,9 +143,6 @@ class CustomerRememberMeSecurityPluginTest extends Unit
         });
     }
 
-    /**
-     * @return \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
-     */
     protected function getAuthorizationChecker(): AuthorizationCheckerInterface
     {
         $container = $this->tester->getContainer();

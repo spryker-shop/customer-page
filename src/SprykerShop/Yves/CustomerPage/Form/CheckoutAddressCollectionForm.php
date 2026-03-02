@@ -125,11 +125,6 @@ class CheckoutAddressCollectionForm extends AbstractType
         return 'addressesForm';
     }
 
-    /**
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
-     *
-     * @return void
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -241,12 +236,6 @@ class CheckoutAddressCollectionForm extends AbstractType
         return $event;
     }
 
-    /**
-     * @param \Symfony\Component\Form\FormEvent $event
-     * @param \SprykerShop\Yves\CustomerPage\Dependency\Service\CustomerPageToShipmentServiceInterface $shipmentService
-     *
-     * @return void
-     */
     protected function hydrateShippingAddressSubFormDataFromItemLevelShippingAddresses(
         FormEvent $event,
         CustomerPageToShipmentServiceInterface $shipmentService
@@ -285,11 +274,6 @@ class CheckoutAddressCollectionForm extends AbstractType
         $shippingAddressForm->setData(clone $shipmentGroupTransfer->getShipment()->getShippingAddress());
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteTransfer
-     */
     protected function executeCheckoutAddressStepPreGroupItemsByShipmentPlugins(QuoteTransfer $quoteTransfer): QuoteTransfer
     {
         $checkoutAddressStepPreGroupItemsByShipmentPlugins = $this->getFactory()->getCheckoutAddressStepPreGroupItemsByShipmentPlugins();
@@ -355,12 +339,6 @@ class CheckoutAddressCollectionForm extends AbstractType
         return $event;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     * @param \Generated\Shared\Transfer\ShipmentTransfer $shipmentTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteTransfer
-     */
     protected function mapShipmentToItemLevelShipments(
         QuoteTransfer $quoteTransfer,
         ShipmentTransfer $shipmentTransfer
@@ -372,12 +350,6 @@ class CheckoutAddressCollectionForm extends AbstractType
         return $quoteTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     * @param \Generated\Shared\Transfer\ShipmentTransfer $shipmentTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteTransfer
-     */
     protected function mapShipmentToBundleItemLevelShipments(
         QuoteTransfer $quoteTransfer,
         ShipmentTransfer $shipmentTransfer
@@ -389,11 +361,6 @@ class CheckoutAddressCollectionForm extends AbstractType
         return $quoteTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return \Generated\Shared\Transfer\ShipmentTransfer
-     */
     protected function getQuoteItemShipmentTransfer(QuoteTransfer $quoteTransfer): ShipmentTransfer
     {
         /** @var \Generated\Shared\Transfer\ItemTransfer|null $itemTransfer */
@@ -408,11 +375,6 @@ class CheckoutAddressCollectionForm extends AbstractType
         return new ShipmentTransfer();
     }
 
-    /**
-     * @param \Symfony\Component\Form\FormInterface $form
-     *
-     * @return \Symfony\Component\Form\FormInterface
-     */
     protected function setDeliverToMultipleAddressesEnabled(FormInterface $form): FormInterface
     {
         if (!$form->has(CheckoutAddressForm::FIELD_ID_CUSTOMER_ADDRESS)) {
@@ -427,11 +389,6 @@ class CheckoutAddressCollectionForm extends AbstractType
         return $form;
     }
 
-    /**
-     * @param \Symfony\Component\Form\FormInterface $form
-     *
-     * @return bool
-     */
     protected function isDeliverToMultipleAddressesEnabled(FormInterface $form): bool
     {
         if (!$form->has(CheckoutAddressForm::FIELD_ID_CUSTOMER_ADDRESS)) {
@@ -595,9 +552,6 @@ class CheckoutAddressCollectionForm extends AbstractType
         return $this;
     }
 
-    /**
-     * @return \Symfony\Component\Validator\Constraints\IsFalse
-     */
     protected function createBillingSameAsShippingConstraint(): IsFalse
     {
         return new IsFalse([
@@ -606,22 +560,12 @@ class CheckoutAddressCollectionForm extends AbstractType
         ]);
     }
 
-    /**
-     * @param \Symfony\Component\Form\FormInterface $form
-     *
-     * @return bool
-     */
     protected function isIdCustomerAddressFieldNotEmpty(FormInterface $form): bool
     {
         return $form->has(CheckoutAddressForm::FIELD_ID_CUSTOMER_ADDRESS)
             && $form->get(CheckoutAddressForm::FIELD_ID_CUSTOMER_ADDRESS)->getData();
     }
 
-    /**
-     * @param \Symfony\Component\Form\FormInterface $form
-     *
-     * @return bool
-     */
     protected function isIdCompanyUnitAddressFieldNotEmpty(FormInterface $form): bool
     {
         return $form->has(CheckoutAddressForm::FIELD_ID_COMPANY_UNIT_ADDRESS)
@@ -643,11 +587,6 @@ class CheckoutAddressCollectionForm extends AbstractType
         return $this;
     }
 
-    /**
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
-     *
-     * @return void
-     */
     protected function configureOptionsByCheckoutAddressCollectionFormExpanderPlugins(OptionsResolver $resolver): void
     {
         foreach ($this->getFactory()->getCheckoutAddressCollectionFormExpanderPlugins() as $checkoutAddressCollectionFormExpanderPlugin) {

@@ -40,22 +40,12 @@ class CustomerAuthenticationFailureHandler extends BaseCustomerAuthenticationHan
      */
     protected $targetUrl;
 
-    /**
-     * @param \Spryker\Yves\Messenger\FlashMessenger\FlashMessengerInterface $flashMessenger
-     * @param string|null $targetUrl
-     */
     public function __construct(FlashMessengerInterface $flashMessenger, ?string $targetUrl = null)
     {
         $this->flashMessenger = $flashMessenger;
         $this->targetUrl = $targetUrl;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Symfony\Component\Security\Core\Exception\AuthenticationException $exception
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         $this->flashMessenger->addErrorMessage($this->buildErrorMessage($exception));
@@ -68,19 +58,11 @@ class CustomerAuthenticationFailureHandler extends BaseCustomerAuthenticationHan
         return $this->createRefererRedirectResponse($request, $this->targetUrl);
     }
 
-    /**
-     * @param \Symfony\Component\Security\Core\Exception\AuthenticationException $exception
-     *
-     * @return string
-     */
     protected function buildErrorMessage(AuthenticationException $exception): string
     {
         return static::MESSAGE_CUSTOMER_AUTHENTICATION_FAILED;
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
     protected function createAjaxResponse(): JsonResponse
     {
         return new JsonResponse([

@@ -42,12 +42,6 @@ class CustomerAuthenticationSuccessHandler extends AbstractPlugin implements Aut
      */
     protected const MULTI_FACTOR_AUTH_LOGIN_CUSTOMER_EMAIL_SESSION_KEY = '_multi_factor_auth_login_customer_email';
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): Response
     {
         /** @var \SprykerShop\Yves\CustomerPage\Security\Customer $customer */
@@ -68,11 +62,6 @@ class CustomerAuthenticationSuccessHandler extends AbstractPlugin implements Aut
         return $this->createRedirectResponse($request);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\CustomerTransfer $customerTransfer
-     *
-     * @return void
-     */
     public function executeOnAuthenticationSuccess(CustomerTransfer $customerTransfer): void
     {
         $this->setCustomerSession($customerTransfer);
@@ -82,11 +71,6 @@ class CustomerAuthenticationSuccessHandler extends AbstractPlugin implements Aut
         $this->getFactory()->createAuditLogger()->addSuccessfulLoginAuditLog();
     }
 
-    /**
-     * @param bool $requiresAdditionalAuth
-     *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
     protected function createAjaxResponse(bool $requiresAdditionalAuth = false): JsonResponse
     {
         return new JsonResponse([
@@ -134,9 +118,6 @@ class CustomerAuthenticationSuccessHandler extends AbstractPlugin implements Aut
         return static::ROUTE_HOME;
     }
 
-    /**
-     * @return void
-     */
     protected function executeAfterPlugins(): void
     {
         $afterCustomerAuthenticationSuccessPlugins = $this->getFactory()->getAfterCustomerAuthenticationSuccessPlugins();

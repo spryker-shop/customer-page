@@ -234,17 +234,11 @@ class GuestForm extends AbstractType
         ));
     }
 
-    /**
-     * @return \Symfony\Component\Validator\Constraints\NotBlank
-     */
     protected function createNotBlankConstraint(): NotBlank
     {
         return new NotBlank(['message' => static::VALIDATION_NOT_BLANK_MESSAGE]);
     }
 
-    /**
-     * @return \Symfony\Component\Validator\Constraints\Regex
-     */
     protected function createFirstNameRegexConstraint(): Regex
     {
         return new Regex([
@@ -252,9 +246,6 @@ class GuestForm extends AbstractType
         ]);
     }
 
-    /**
-     * @return \Symfony\Component\Validator\Constraints\Regex
-     */
     protected function createLastNameRegexConstraint(): Regex
     {
         return new Regex([

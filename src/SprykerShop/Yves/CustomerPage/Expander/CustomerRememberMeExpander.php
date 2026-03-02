@@ -65,10 +65,6 @@ class CustomerRememberMeExpander implements CustomerRememberMeExpanderInterface
      */
     protected CustomerSecurityOptionsBuilderInterface $customerSecurityOptionsBuilder;
 
-    /**
-     * @param \Symfony\Component\Security\Core\User\UserProviderInterface $userProvider
-     * @param \SprykerShop\Yves\CustomerPage\Builder\CustomerSecurityOptionsBuilderInterface $customerSecurityOptionsBuilder
-     */
     public function __construct(
         UserProviderInterface $userProvider,
         CustomerSecurityOptionsBuilderInterface $customerSecurityOptionsBuilder
@@ -77,12 +73,6 @@ class CustomerRememberMeExpander implements CustomerRememberMeExpanderInterface
         $this->customerSecurityOptionsBuilder = $customerSecurityOptionsBuilder;
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     public function expand(SecurityBuilderInterface $securityBuilder, ContainerInterface $container): SecurityBuilderInterface
     {
         $this->addRememberMeAuthenticator($container);
@@ -100,11 +90,6 @@ class CustomerRememberMeExpander implements CustomerRememberMeExpanderInterface
         return $securityBuilder;
     }
 
-    /**
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return void
-     */
     protected function addRememberMeAuthenticator(ContainerInterface $container): void
     {
         $container->set(static::SECURITY_REMEMBER_ME_AUTHENTICATOR, function () use ($container): InteractiveAuthenticatorInterface {
@@ -117,11 +102,6 @@ class CustomerRememberMeExpander implements CustomerRememberMeExpanderInterface
         });
     }
 
-    /**
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return \Symfony\Component\Security\Http\RememberMe\RememberMeHandlerInterface
-     */
     protected function createSignatureRememberMeHandler(ContainerInterface $container): RememberMeHandlerInterface
     {
         return new SignatureRememberMeHandler(

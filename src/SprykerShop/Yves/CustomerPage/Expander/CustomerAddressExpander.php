@@ -18,20 +18,11 @@ class CustomerAddressExpander implements CustomerAddressExpanderInterface
      */
     protected $customerMapper;
 
-    /**
-     * @param \SprykerShop\Yves\CustomerPage\Mapper\CustomerMapperInterface $customerMapper
-     */
     public function __construct(CustomerMapperInterface $customerMapper)
     {
         $this->customerMapper = $customerMapper;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AddressTransfer $addressTransfer
-     * @param \Generated\Shared\Transfer\CustomerTransfer|null $customerTransfer
-     *
-     * @return \Generated\Shared\Transfer\AddressTransfer
-     */
     public function expandWithCustomerAddress(AddressTransfer $addressTransfer, ?CustomerTransfer $customerTransfer): AddressTransfer
     {
         if ($customerTransfer === null) {

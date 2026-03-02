@@ -188,29 +188,16 @@ class CustomerPageToCustomerClientBridge implements CustomerPageToCustomerClient
         $this->customerClient->markCustomerAsDirty();
     }
 
-    /**
-     * @return string
-     */
     public function getCustomerSecuredPattern(): string
     {
         return $this->customerClient->getCustomerSecuredPattern();
     }
 
-    /**
-     * @param string $accessToken
-     *
-     * @return \Generated\Shared\Transfer\CustomerResponseTransfer
-     */
     public function getCustomerByAccessToken(string $accessToken): CustomerResponseTransfer
     {
         return $this->customerClient->getCustomerByAccessToken($accessToken);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\CustomerTransfer $customerTransfer
-     *
-     * @return \Generated\Shared\Transfer\CustomerResponseTransfer
-     */
     public function confirmCustomerRegistration(CustomerTransfer $customerTransfer): CustomerResponseTransfer
     {
         return $this->customerClient->confirmCustomerRegistration($customerTransfer);

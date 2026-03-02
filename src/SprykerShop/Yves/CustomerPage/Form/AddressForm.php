@@ -134,11 +134,6 @@ class AddressForm extends AbstractType
         return 'addressForm';
     }
 
-    /**
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
-     *
-     * @return void
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired(static::OPTION_COUNTRY_CHOICES);
@@ -467,9 +462,6 @@ class AddressForm extends AbstractType
         ]);
     }
 
-    /**
-     * @return \Symfony\Component\Validator\Constraints\Regex
-     */
     protected function createFirstNameRegexConstraint(): Regex
     {
         return new Regex([
@@ -477,9 +469,6 @@ class AddressForm extends AbstractType
         ]);
     }
 
-    /**
-     * @return \Symfony\Component\Validator\Constraints\Regex
-     */
     protected function createLastNameRegexConstraint(): Regex
     {
         return new Regex([

@@ -72,11 +72,6 @@ class OrderController extends AbstractCustomerController
         );
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return array
-     */
     protected function executeIndexAction(Request $request): array
     {
         $orderListTransfer = new OrderListTransfer();
@@ -130,13 +125,6 @@ class OrderController extends AbstractCustomerController
         );
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Symfony\Component\Form\FormInterface $orderSearchForm
-     * @param \Generated\Shared\Transfer\OrderListTransfer $orderListTransfer
-     *
-     * @return \Generated\Shared\Transfer\OrderListTransfer
-     */
     protected function handleOrderSearchFormSubmit(
         Request $request,
         FormInterface $orderSearchForm,

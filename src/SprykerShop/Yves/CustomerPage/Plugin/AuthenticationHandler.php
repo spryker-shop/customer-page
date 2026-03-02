@@ -64,11 +64,6 @@ class AuthenticationHandler extends AbstractPlugin
             ->authenticateCustomer($customerTransfer, $token);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\CustomerTransfer $customerTransfer
-     *
-     * @return void
-     */
     protected function executePreRegistrationCustomerTransferExpanderPlugins(CustomerTransfer $customerTransfer): void
     {
         foreach ($this->preRegistrationCustomerTransferExpanderPlugins as $preRegistrationCustomerTransferExpanderPlugin) {

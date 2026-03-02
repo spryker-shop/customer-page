@@ -52,11 +52,6 @@ class CustomerConfirmationUserChecker extends InMemoryUserChecker
         $this->executePreAuthUserCheckPlugins($user);
     }
 
-    /**
-     * @param \SprykerShop\Yves\CustomerPage\Security\CustomerUserInterface $user
-     *
-     * @return void
-     */
     protected function executePreAuthUserCheckPlugins(CustomerUserInterface $user): void
     {
         foreach ($this->preAuthUserCheckPlugins as $preAuthCheckerPlugin) {

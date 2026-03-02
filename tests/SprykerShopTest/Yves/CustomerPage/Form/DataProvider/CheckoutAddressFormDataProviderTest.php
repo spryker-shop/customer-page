@@ -47,9 +47,6 @@ class CheckoutAddressFormDataProviderTest extends Unit
      */
     protected CheckoutAddressFormDataProvider $dataProvider;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();

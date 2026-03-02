@@ -25,17 +25,11 @@ class CustomerPageToSecurityBlockerClientBridge implements CustomerPageToSecurit
         $this->securityBlockerClient = $securityBlockerClient;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function incrementLoginAttemptCount(SecurityCheckAuthContextTransfer $securityCheckAuthContextTransfer): SecurityCheckAuthResponseTransfer
     {
         return $this->securityBlockerClient->incrementLoginAttemptCount($securityCheckAuthContextTransfer);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isAccountBlocked(SecurityCheckAuthContextTransfer $securityCheckAuthContextTransfer): SecurityCheckAuthResponseTransfer
     {
         return $this->securityBlockerClient->isAccountBlocked($securityCheckAuthContextTransfer);

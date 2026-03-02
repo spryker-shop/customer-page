@@ -95,9 +95,6 @@ class FormFactory extends AbstractFactory
         return $this->getFormFactory()->create(PasswordForm::class);
     }
 
-    /**
-     * @return \Symfony\Component\Form\FormInterface
-     */
     public function getOrderSearchForm(): FormInterface
     {
         $orderSearchFormDataProvider = $this->createOrderSearchFormDataProvider();
@@ -109,25 +106,16 @@ class FormFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Symfony\Component\Form\FormInterface
-     */
     public function getCustomerDeleteForm(): FormInterface
     {
         return $this->getFormFactory()->create(CustomerDeleteForm::class);
     }
 
-    /**
-     * @return \Symfony\Component\Form\FormInterface
-     */
     public function getCustomerAddressDeleteForm(): FormInterface
     {
         return $this->getFormFactory()->create(CustomerAddressDeleteForm::class);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Form\DataProvider\OrderSearchFormDataProvider
-     */
     public function createOrderSearchFormDataProvider(): OrderSearchFormDataProvider
     {
         return new OrderSearchFormDataProvider(
@@ -144,9 +132,6 @@ class FormFactory extends AbstractFactory
         return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_CUSTOMER);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToSalesClientInterface
-     */
     public function getSalesClient(): CustomerPageToSalesClientInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_SALES);
@@ -160,17 +145,11 @@ class FormFactory extends AbstractFactory
         return $this->getProvidedDependency(CustomerPageDependencyProvider::PLUGINS_ORDER_SEARCH_FORM_EXPANDER);
     }
 
-    /**
-     * @return string|null
-     */
     public function getCurrentTimezone(): ?string
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::TIMEZONE_CURRENT);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToStoreClientInterface
-     */
     public function getStoreClient(): CustomerPageToStoreClientInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_STORE);

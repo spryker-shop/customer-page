@@ -37,9 +37,6 @@ class LoginFormTest extends Unit
      */
     protected $builderMock;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -55,9 +52,6 @@ class LoginFormTest extends Unit
             ->getMock();
     }
 
-    /**
-     * @return void
-     */
     public function testRememberMeFieldIsAddedWhenEnabled(): void
     {
         // Arrange
@@ -76,9 +70,6 @@ class LoginFormTest extends Unit
         $this->loginForm->buildForm($this->builderMock, []);
     }
 
-    /**
-     * @return void
-     */
     public function testRememberMeFieldIsNotAddedWhenDisabled(): void
     {
         // Arrange

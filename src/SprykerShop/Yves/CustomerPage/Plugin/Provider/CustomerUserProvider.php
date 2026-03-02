@@ -46,11 +46,6 @@ class CustomerUserProvider extends AbstractPlugin implements UserProviderInterfa
         return $this->loadUserByIdentifier($username);
     }
 
-    /**
-     * @param string $identifier
-     *
-     * @return \Symfony\Component\Security\Core\User\UserInterface
-     */
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         $customerTransfer = $this->loadCustomerByEmail($identifier);
@@ -138,11 +133,6 @@ class CustomerUserProvider extends AbstractPlugin implements UserProviderInterfa
         return $customerTransfer;
     }
 
-    /**
-     * @param \Symfony\Component\Security\Core\User\UserInterface $user
-     *
-     * @return string
-     */
     protected function getUserIdentifier(UserInterface $user): string
     {
         if ($this->isSymfonyVersion5() === true) {

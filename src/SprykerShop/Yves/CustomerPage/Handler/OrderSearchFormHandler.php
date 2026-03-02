@@ -60,12 +60,6 @@ class OrderSearchFormHandler implements OrderSearchFormHandlerInterface
         $this->orderSearchFormHandlerPlugins = $orderSearchFormHandlerPlugins;
     }
 
-    /**
-     * @param \Symfony\Component\Form\FormInterface $orderSearchForm
-     * @param \Generated\Shared\Transfer\OrderListTransfer $orderListTransfer
-     *
-     * @return \Generated\Shared\Transfer\OrderListTransfer
-     */
     public function handleOrderSearchFormSubmit(
         FormInterface $orderSearchForm,
         OrderListTransfer $orderListTransfer
@@ -88,11 +82,6 @@ class OrderSearchFormHandler implements OrderSearchFormHandlerInterface
         return $orderListTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\OrderListTransfer $orderListTransfer
-     *
-     * @return \Generated\Shared\Transfer\OrderListTransfer
-     */
     public function resetFilterFields(OrderListTransfer $orderListTransfer): OrderListTransfer
     {
         $orderListTransfer->setFilterFields(new ArrayObject());
@@ -219,13 +208,6 @@ class OrderSearchFormHandler implements OrderSearchFormHandlerInterface
         return $orderListTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\OrderListTransfer $orderListTransfer
-     * @param string $orderBy
-     * @param string|null $orderDirection
-     *
-     * @return \Generated\Shared\Transfer\OrderListTransfer
-     */
     protected function addOrderByFilter(
         OrderListTransfer $orderListTransfer,
         string $orderBy,
@@ -245,12 +227,6 @@ class OrderSearchFormHandler implements OrderSearchFormHandlerInterface
         );
     }
 
-    /**
-     * @param string $type
-     * @param string $value
-     *
-     * @return \Generated\Shared\Transfer\FilterFieldTransfer
-     */
     protected function createFilterFieldTransfer(string $type, string $value): FilterFieldTransfer
     {
         return (new FilterFieldTransfer())

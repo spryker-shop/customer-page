@@ -85,9 +85,6 @@ use Twig\TwigFunction;
  */
 class CustomerPageFactory extends AbstractFactory
 {
-    /**
-     * @return \Symfony\Component\EventDispatcher\EventSubscriberInterface
-     */
     public function createInteractiveLoginEventSubscriber(): EventSubscriberInterface
     {
         return new InteractiveLoginEventSubscriber();
@@ -127,11 +124,6 @@ class CustomerPageFactory extends AbstractFactory
         return new CustomerUserProvider();
     }
 
-    /**
-     * @param string $targetUrl
-     *
-     * @return \Symfony\Component\Security\Http\Authorization\AccessDeniedHandlerInterface
-     */
     public function createAccessDeniedHandler(string $targetUrl): AccessDeniedHandlerInterface
     {
         return new AccessDeniedHandler($targetUrl);
@@ -187,9 +179,6 @@ class CustomerPageFactory extends AbstractFactory
         return new RedirectResponse($targetUrl);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Authenticator\CustomerAuthenticatorInterface
-     */
     public function createCustomerAuthenticator(): CustomerAuthenticatorInterface
     {
         return new CustomerAuthenticator(
@@ -198,9 +187,6 @@ class CustomerPageFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Form\DataProvider\CheckoutAddressFormDataProvider
-     */
     public function createCheckoutAddressFormDataProvider(): CheckoutAddressFormDataProvider
     {
         return new CheckoutAddressFormDataProvider(
@@ -215,41 +201,26 @@ class CustomerPageFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Symfony\Component\Form\DataTransformerInterface
-     */
     public function createAddressSelectTransformer(): DataTransformerInterface
     {
         return new AddressSelectTransformer();
     }
 
-    /**
-     * @return \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface
-     */
     public function getTokenStorage(): TokenStorageInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::SERVICE_SECURITY_TOKEN_STORAGE);
     }
 
-    /**
-     * @return \Spryker\Yves\Router\Router\ChainRouter
-     */
     public function getRouter(): ChainRouter
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::SERVICE_ROUTER);
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\RequestStack
-     */
     public function getRequestStack(): RequestStack
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::SERVICE_REQUEST_STACK);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Reader\OrderReaderInterface
-     */
     public function createOrderReader(): OrderReaderInterface
     {
         return new OrderReader(
@@ -259,9 +230,6 @@ class CustomerPageFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToSalesClientInterface
-     */
     public function getSalesClient(): CustomerPageToSalesClientInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_SALES);
@@ -275,9 +243,6 @@ class CustomerPageFactory extends AbstractFactory
         return $this->getProvidedDependency(CustomerPageDependencyProvider::PLUGIN_AUTHENTICATION_HANDLER);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToProductBundleClientInterface
-     */
     public function getProductBundleClient(): CustomerPageToProductBundleClientInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_PRODUCT_BUNDLE);
@@ -345,17 +310,11 @@ class CustomerPageFactory extends AbstractFactory
         return $this->getProvidedDependency(CustomerPageDependencyProvider::SERVICE_FLASH_MESSENGER);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToCustomerClientInterface
-     */
     public function getCustomerClient(): CustomerPageToCustomerClientInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_CUSTOMER);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToQuoteClientInteface
-     */
     public function getQuoteClient(): CustomerPageToQuoteClientInteface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_QUOTE);
@@ -425,17 +384,11 @@ class CustomerPageFactory extends AbstractFactory
         return $this->getProvidedDependency(CustomerPageDependencyProvider::PLUGIN_AFTER_CUSTOMER_AUTHENTICATION_SUCCESS);
     }
 
-    /**
-     * @return \Spryker\Shared\Twig\TwigFunctionProvider
-     */
     public function createGetUsernameTwigFunctionProvider(): TwigFunctionProvider
     {
         return new GetUsernameTwigFunctionProvider($this->getCustomerClient());
     }
 
-    /**
-     * @return \Twig\TwigFunction
-     */
     public function createGetUsernameTwigFunction(): TwigFunction
     {
         $functionProvider = $this->createGetUsernameTwigFunctionProvider();
@@ -447,17 +400,11 @@ class CustomerPageFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Shared\Twig\TwigFunctionProvider
-     */
     public function createIsLoggedTwigFunctionProvider(): TwigFunctionProvider
     {
         return new IsLoggedTwigFunctionProvider($this->getCustomerClient());
     }
 
-    /**
-     * @return \Twig\TwigFunction
-     */
     public function createIsLoggedTwigFunction(): TwigFunction
     {
         $functionProvider = $this->createIsLoggedTwigFunctionProvider();
@@ -469,81 +416,51 @@ class CustomerPageFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Dependency\Service\CustomerPageToShipmentServiceInterface
-     */
     public function getShipmentService(): CustomerPageToShipmentServiceInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::SERVICE_SHIPMENT);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Mapper\CustomerMapperInterface
-     */
     public function createCustomerMapper(): CustomerMapperInterface
     {
         return new CustomerMapper();
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Mapper\ItemStateMapperInterface
-     */
     public function createItemStateMapper(): ItemStateMapperInterface
     {
         return new ItemStateMapper();
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Expander\CustomerAddressExpanderInterface
-     */
     public function createCustomerExpander(): CustomerAddressExpanderInterface
     {
         return new CustomerAddressExpander($this->createCustomerMapper());
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Expander\ShipmentGroupExpanderInterface
-     */
     public function createShipmentGroupExpander(): ShipmentGroupExpanderInterface
     {
         return new ShipmentGroupExpander();
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Expander\ShipmentExpanderInterface
-     */
     public function createShipmentExpander(): ShipmentExpanderInterface
     {
         return new ShipmentExpander();
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\CustomerAddress\AddressChoicesResolverInterface
-     */
     public function createAddressChoicesResolver(): AddressChoicesResolverInterface
     {
         return new AddressChoicesResolver();
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToShipmentClientInterface
-     */
     public function getShipmentClient(): CustomerPageToShipmentClientInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_SHIPMENT);
     }
 
-    /**
-     * @return string
-     */
     public function getLocale(): string
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::SERVICE_LOCALE);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Dependency\Service\CustomerPageToCustomerServiceInterface
-     */
     public function getCustomerService(): CustomerPageToCustomerServiceInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::SERVICE_CUSTOMER);
@@ -557,9 +474,6 @@ class CustomerPageFactory extends AbstractFactory
         return $this->getProvidedDependency(CustomerPageDependencyProvider::PLUGINS_CHECKOUT_ADDRESS_STEP_PRE_GROUP_ITEMS_BY_SHIPMENT);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Handler\OrderSearchFormHandlerInterface
-     */
     public function createOrderSearchFormHandler(): OrderSearchFormHandlerInterface
     {
         return new OrderSearchFormHandler(
@@ -576,17 +490,11 @@ class CustomerPageFactory extends AbstractFactory
         return $this->getProvidedDependency(CustomerPageDependencyProvider::PLUGINS_ORDER_SEARCH_FORM_HANDLER);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Form\Cloner\FormCloner
-     */
     public function createFormCloner(): FormCloner
     {
         return new FormCloner();
     }
 
-    /**
-     * @return \Symfony\Component\Security\Core\User\UserCheckerInterface
-     */
     public function createCustomerConfirmationUserChecker(): UserCheckerInterface
     {
         return new CustomerConfirmationUserChecker(
@@ -594,9 +502,6 @@ class CustomerPageFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Symfony\Component\EventDispatcher\EventSubscriberInterface
-     */
     public function createUserCheckerListener(): EventSubscriberInterface
     {
         return new UserCheckerListener(
@@ -604,9 +509,6 @@ class CustomerPageFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Formatter\LoginCheckUrlFormatterInterface
-     */
     public function createLoginCheckUrlFormatter(): LoginCheckUrlFormatterInterface
     {
         return new LoginCheckUrlFormatter(
@@ -624,9 +526,6 @@ class CustomerPageFactory extends AbstractFactory
         return $this->getProvidedDependency(CustomerPageDependencyProvider::PLUGINS_PRE_AUTH_USER_CHECK);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToStoreClientInterface
-     */
     public function getStoreClient(): CustomerPageToStoreClientInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_STORE);
@@ -648,17 +547,11 @@ class CustomerPageFactory extends AbstractFactory
         return $this->getProvidedDependency(CustomerPageDependencyProvider::PLUGINS_CHECKOUT_MULTI_SHIPPING_ADDRESSES_FORM_EXPANDER);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToSecurityBlockerClientInterface
-     */
     public function getSecurityBlockerClient(): CustomerPageToSecurityBlockerClientInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_SECURITY_BLOCKER);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Builder\CustomerSecurityOptionsBuilderInterface
-     */
     public function createCustomerSecurityOptionsBuilder(): CustomerSecurityOptionsBuilderInterface
     {
         return new CustomerSecurityOptionsBuilder(
@@ -668,9 +561,6 @@ class CustomerPageFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface
-     */
     public function createCustomerLoginAuthenticator(): AuthenticatorInterface
     {
         return new CustomerLoginFormAuthenticator(
@@ -683,25 +573,16 @@ class CustomerPageFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge
-     */
     public function createRememberMeBadge(): RememberMeBadge
     {
         return new RememberMeBadge();
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Badge\MultiFactorAuthBadge
-     */
     public function createMultiFactorAuthBadge(): MultiFactorAuthBadge
     {
         return new MultiFactorAuthBadge($this->getCustomerMultiFactorAuthenticationHandlerPlugins());
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Expander\SecurityBuilderExpanderInterface
-     */
     public function createSecurityBuilderExpander(): SecurityBuilderExpanderInterface
     {
         if (class_exists(AuthenticationProviderManager::class) === true) {
@@ -718,9 +599,6 @@ class CustomerPageFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Expander\CustomerRememberMeExpanderInterface
-     */
     public function createCustomerRememberMeExpander(): CustomerRememberMeExpanderInterface
     {
         return new CustomerRememberMeExpander(
@@ -729,9 +607,6 @@ class CustomerPageFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Logger\AuditLoggerInterface
-     */
     public function createAuditLogger(): AuditLoggerInterface
     {
         return new AuditLogger();
@@ -745,9 +620,6 @@ class CustomerPageFactory extends AbstractFactory
         return $this->getProvidedDependency(CustomerPageDependencyProvider::PLUGINS_CUSTOMER_AUTHENTICATION_HANDLER);
     }
 
-    /**
-     * @return \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToSessionClientInterface
-     */
     public function getSessionClient(): CustomerPageToSessionClientInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_SESSION);

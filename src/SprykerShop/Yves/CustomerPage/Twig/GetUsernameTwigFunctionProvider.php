@@ -22,25 +22,16 @@ class GetUsernameTwigFunctionProvider extends TwigFunctionProvider
      */
     protected $customerClient;
 
-    /**
-     * @param \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToCustomerClientInterface $customerClient
-     */
     public function __construct(CustomerPageToCustomerClientInterface $customerClient)
     {
         $this->customerClient = $customerClient;
     }
 
-    /**
-     * @return string
-     */
     public function getFunctionName(): string
     {
         return static::TWIG_FUNCTION_NAME_GET_USERNAME;
     }
 
-    /**
-     * @return callable
-     */
     public function getFunction(): callable
     {
         return function (): ?string {

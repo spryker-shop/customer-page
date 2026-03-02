@@ -12,11 +12,5 @@ use Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface;
 
 interface CustomerRememberMeExpanderInterface
 {
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     public function expand(SecurityBuilderInterface $securityBuilder, ContainerInterface $container): SecurityBuilderInterface;
 }

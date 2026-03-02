@@ -34,11 +34,6 @@ class AccessTokenController extends AbstractCustomerController
      */
     protected const GLOSSARY_KEY_INVALID_ACCESS_TOKEN = 'customer_page.error.invalid_access_token';
 
-    /**
-     * @param string $token
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
     public function indexAction(string $token): RedirectResponse
     {
         $response = $this->executeIndexAction($token);

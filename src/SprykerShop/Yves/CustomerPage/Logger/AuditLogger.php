@@ -29,35 +29,21 @@ class AuditLogger implements AuditLoggerInterface
      */
     protected const AUDIT_LOGGER_RECORD_KEY_CONTEXT_TAGS = 'tags';
 
-    /**
-     * @return void
-     */
     public function addFailedLoginAuditLog(): void
     {
         $this->addAuditLogWithTags('Failed Login', ['failed_login']);
     }
 
-    /**
-     * @return void
-     */
     public function addSuccessfulLoginAuditLog(): void
     {
         $this->addAuditLogWithTags('Successful Login', ['successful_login']);
     }
 
-    /**
-     * @return void
-     */
     public function addPasswordResetRequestedAuditLog(): void
     {
         $this->addAuditLogWithTags('Password Reset Requested', ['password_reset_requested']);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\CustomerResponseTransfer $customerResponseTransfer
-     *
-     * @return void
-     */
     public function addPasswordUpdatedAfterResetAuditLog(CustomerResponseTransfer $customerResponseTransfer): void
     {
         $context = $this->addCustomerContext(

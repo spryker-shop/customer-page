@@ -89,11 +89,6 @@ class CheckoutAddressForm extends AddressForm
      */
     public const GLOSSARY_PAGE_CHECKOUT_ADDRESS_ADDRESS_SELECT_LABEL = 'page.checkout.address.address_select.label';
 
-    /**
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
-     *
-     * @return void
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -136,11 +131,6 @@ class CheckoutAddressForm extends AddressForm
             ->addFormSubmitEventListener($builder);
     }
 
-    /**
-     * @param \Symfony\Component\Form\FormEvent $event
-     *
-     * @return \Symfony\Component\Form\FormEvent
-     */
     protected function cleanUpFormData(FormEvent $event): FormEvent
     {
         $addressTransfer = $event->getForm()->getData();
@@ -253,9 +243,6 @@ class CheckoutAddressForm extends AddressForm
         ]);
     }
 
-    /**
-     * @return \Closure
-     */
     protected function getInvertedBooleanValueCallbackTransformer(): Closure
     {
         return function (?bool $value): bool {

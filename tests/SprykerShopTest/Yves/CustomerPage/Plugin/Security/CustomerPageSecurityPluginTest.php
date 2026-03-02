@@ -30,9 +30,6 @@ class CustomerPageSecurityPluginTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -63,9 +60,6 @@ class CustomerPageSecurityPluginTest extends Unit
         });
     }
 
-    /**
-     * @return void
-     */
     public function testCustomerCanLogin(): void
     {
         $container = $this->tester->getContainer();
@@ -85,9 +79,6 @@ class CustomerPageSecurityPluginTest extends Unit
         $this->assertSame('authenticated', $httpKernelBrowser->getResponse()->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testCustomerAccessDenied(): void
     {
         $container = $this->tester->getContainer();

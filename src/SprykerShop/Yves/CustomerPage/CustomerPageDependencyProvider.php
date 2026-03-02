@@ -237,11 +237,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
      */
     public const CLIENT_SESSION = 'CLIENT_SESSION';
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     public function provideDependencies(Container $container): Container
     {
         $container = $this->addCustomerClient($container);
@@ -284,11 +279,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addSecurityBlockerClient(Container $container): Container
     {
         $container->set(static::CLIENT_SECURITY_BLOCKER, function (Container $container) {
@@ -316,11 +306,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addAuthenticationHandlerPlugin(Container $container): Container
     {
         $container->set(static::PLUGIN_AUTHENTICATION_HANDLER, function () {
@@ -330,11 +315,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addLoginCheckoutAuthenticationHandlerPlugin(Container $container): Container
     {
         $container->set(static::PLUGIN_LOGIN_AUTHENTICATION_HANDLER, function () {
@@ -344,11 +324,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addGuestCheckoutAuthenticationHandlerPlugin(Container $container): Container
     {
         $container->set(static::PLUGIN_GUEST_AUTHENTICATION_HANDLER, function () {
@@ -358,11 +333,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addRegistrationCheckoutAuthenticationHandlerPlugin(Container $container): Container
     {
         $container->set(static::PLUGIN_REGISTRATION_AUTHENTICATION_HANDLER, function () {
@@ -372,11 +342,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addFlashMessenger(Container $container): Container
     {
         $container->set(static::SERVICE_FLASH_MESSENGER, function (Container $container) {
@@ -386,11 +351,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addSecurityTokenStorage(Container $container): Container
     {
         $container->set(static::SERVICE_SECURITY_TOKEN_STORAGE, function (Container $container) {
@@ -400,11 +360,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addRouter(Container $container): Container
     {
         $container->set(static::SERVICE_ROUTER, function (Container $container) {
@@ -414,11 +369,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addLocale(Container $container): Container
     {
         $container->set(static::SERVICE_LOCALE, function (Container $container) {
@@ -428,11 +378,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addRequestStack(Container $container): Container
     {
         $container->set(static::SERVICE_REQUEST_STACK, function (Container $container) {
@@ -442,11 +387,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addCustomerClient(Container $container): Container
     {
         $container->set(static::CLIENT_CUSTOMER, function (Container $container) {
@@ -456,11 +396,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addQuoteClient(Container $container): Container
     {
         $container->set(static::CLIENT_QUOTE, function (Container $container) {
@@ -470,11 +405,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addSalesClient(Container $container): Container
     {
         $container->set(static::CLIENT_SALES, function (Container $container) {
@@ -484,11 +414,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addProductBundleClient(Container $container): Container
     {
         $container->set(static::CLIENT_PRODUCT_BUNDLE, function (Container $container) {
@@ -498,11 +423,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addCustomerOverviewWidgetPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_CUSTOMER_OVERVIEW_WIDGETS, function () {
@@ -512,11 +432,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addCustomerOrderListWidgetPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_CUSTOMER_ORDER_LIST_WIDGETS, function () {
@@ -526,11 +441,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addCustomerOrderViewWidgetPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_CUSTOMER_ORDER_VIEW_WIDGETS, function () {
@@ -540,11 +450,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addCustomerMenuItemWidgetPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_CUSTOMER_MENU_ITEM_WIDGETS, function () {
@@ -554,11 +459,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addUtilValidateService(Container $container): Container
     {
         $container->set(static::SERVICE_UTIL_VALIDATE, function (Container $container) {
@@ -568,11 +468,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addPreRegistrationCustomerTransferExpanderPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_PRE_REGISTRATION_CUSTOMER_TRANSFER_EXPANDER, function () {
@@ -590,11 +485,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addAfterLoginCustomerRedirectPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_AFTER_LOGIN_CUSTOMER_REDIRECT, function () {
@@ -644,11 +534,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addAfterCustomerAuthenticationSuccessPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_AFTER_CUSTOMER_AUTHENTICATION_SUCCESS, function () {
@@ -666,11 +551,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addPreAuthUserCheckPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_PRE_AUTH_USER_CHECK, function () {
@@ -688,11 +568,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addShipmentService(Container $container): Container
     {
         $container->set(static::SERVICE_SHIPMENT, function (Container $container) {
@@ -702,11 +577,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addCustomerService(Container $container): Container
     {
         $container->set(static::SERVICE_CUSTOMER, function (Container $container): CustomerPageToCustomerServiceInterface {
@@ -716,11 +586,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addShipmentClient(Container $container): Container
     {
         $container->set(static::CLIENT_SHIPMENT, function (Container $container): CustomerPageToShipmentClientInterface {
@@ -730,11 +595,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addCheckoutAddressStepPreGroupItemsByShipmentPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_CHECKOUT_ADDRESS_STEP_PRE_GROUP_ITEMS_BY_SHIPMENT, function () {
@@ -752,11 +612,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addOrderSearchFormExpanderPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_ORDER_SEARCH_FORM_EXPANDER, function () {
@@ -766,11 +621,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addOrderSearchFormHandlerPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_ORDER_SEARCH_FORM_HANDLER, function () {
@@ -796,11 +646,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addCurrentTimezone(Container $container): Container
     {
         $container->set(static::TIMEZONE_CURRENT, function (Container $container) {
@@ -826,11 +671,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container->get(static::CLIENT_STORE)->getCurrentStore()->getTimezone();
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addStoreClient(Container $container): Container
     {
         $container->set(static::CLIENT_STORE, function (Container $container) {
@@ -842,11 +682,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addCheckoutAddressCollectionFormExpanderPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_CHECKOUT_ADDRESS_COLLECTION_FORM_EXPANDER, function () {
@@ -864,11 +699,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addCheckoutMultiShippingAddressesFormExpanderPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_CHECKOUT_MULTI_SHIPPING_ADDRESSES_FORM_EXPANDER, function () {
@@ -886,11 +716,6 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addCustomerAuthenticationHandlerPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_CUSTOMER_AUTHENTICATION_HANDLER, function () {

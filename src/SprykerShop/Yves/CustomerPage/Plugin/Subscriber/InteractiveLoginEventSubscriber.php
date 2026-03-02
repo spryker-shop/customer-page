@@ -28,11 +28,6 @@ class InteractiveLoginEventSubscriber extends AbstractPlugin implements EventSub
         ];
     }
 
-    /**
-     * @param \Symfony\Component\Security\Http\Event\InteractiveLoginEvent $interactiveLoginEvent
-     *
-     * @return void
-     */
     public function onInteractiveLogin(InteractiveLoginEvent $interactiveLoginEvent): void
     {
         /** @var \SprykerShop\Yves\CustomerPage\Security\Customer $customer */

@@ -12,8 +12,5 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 interface CustomerUserInterface extends UserInterface
 {
-    /**
-     * @return \Generated\Shared\Transfer\CustomerTransfer
-     */
     public function getCustomerTransfer(): CustomerTransfer;
 }

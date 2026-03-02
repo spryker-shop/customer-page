@@ -22,9 +22,6 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
  */
 class CustomerAuthenticationFailureHandlerTest extends AbstractHandlerTest
 {
-    /**
-     * @return void
-     */
     public function testOnAuthenticationFailureAddsFailedLoginAuditLog(): void
     {
         // Arrange
@@ -34,11 +31,6 @@ class CustomerAuthenticationFailureHandlerTest extends AbstractHandlerTest
         $customerAuthenticationFailureHandler->onAuthenticationFailure(new Request(), new AuthenticationException());
     }
 
-    /**
-     * @param string $expectedMessage
-     *
-     * @return \SprykerShop\Yves\CustomerPage\Plugin\Provider\CustomerAuthenticationFailureHandler
-     */
     protected function getCustomerAuthenticationFailureHandler(
         string $expectedMessage
     ): CustomerAuthenticationFailureHandler {

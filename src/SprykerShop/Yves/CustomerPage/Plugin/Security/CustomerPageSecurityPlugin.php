@@ -70,12 +70,6 @@ class CustomerPageSecurityPlugin extends AbstractPlugin implements SecurityPlugi
      */
     protected const SERVICE_ROUTER = 'routers';
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     public function extend(SecurityBuilderInterface $securityBuilder, ContainerInterface $container): SecurityBuilderInterface
     {
         $securityBuilder = $this->addFirewalls($securityBuilder);
@@ -91,11 +85,6 @@ class CustomerPageSecurityPlugin extends AbstractPlugin implements SecurityPlugi
         return $securityBuilder;
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     protected function addFirewalls(SecurityBuilderInterface $securityBuilder): SecurityBuilderInterface
     {
         $securityBuilder->addFirewall(CustomerPageConfig::SECURITY_FIREWALL_NAME, [
@@ -127,11 +116,6 @@ class CustomerPageSecurityPlugin extends AbstractPlugin implements SecurityPlugi
         return $securityBuilder;
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     protected function addAccessRules(SecurityBuilderInterface $securityBuilder): SecurityBuilderInterface
     {
         $customerSecuredPattern = $this->getFactory()
@@ -152,11 +136,6 @@ class CustomerPageSecurityPlugin extends AbstractPlugin implements SecurityPlugi
         return $securityBuilder;
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     protected function addAuthenticationSuccessHandler(SecurityBuilderInterface $securityBuilder): SecurityBuilderInterface
     {
         $securityBuilder->addAuthenticationSuccessHandler(CustomerPageConfig::SECURITY_FIREWALL_NAME, function () {
@@ -166,11 +145,6 @@ class CustomerPageSecurityPlugin extends AbstractPlugin implements SecurityPlugi
         return $securityBuilder;
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     protected function addAuthenticationFailureHandler(SecurityBuilderInterface $securityBuilder): SecurityBuilderInterface
     {
         $securityBuilder->addAuthenticationFailureHandler(CustomerPageConfig::SECURITY_FIREWALL_NAME, function (ContainerInterface $container) {
@@ -182,11 +156,6 @@ class CustomerPageSecurityPlugin extends AbstractPlugin implements SecurityPlugi
         return $securityBuilder;
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     protected function addAccessDeniedHandler(SecurityBuilderInterface $securityBuilder): SecurityBuilderInterface
     {
         $securityBuilder->addAccessDeniedHandler(CustomerPageConfig::SECURITY_FIREWALL_NAME, function (ContainerInterface $container) {
@@ -198,21 +167,11 @@ class CustomerPageSecurityPlugin extends AbstractPlugin implements SecurityPlugi
         return $securityBuilder;
     }
 
-    /**
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return \Spryker\Yves\Router\Router\ChainRouter
-     */
     protected function getRouter(ContainerInterface $container): ChainRouter
     {
         return $container->get(static::SERVICE_ROUTER);
     }
 
-    /**
-     * @param \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface $securityBuilder
-     *
-     * @return \Spryker\Shared\SecurityExtension\Configuration\SecurityBuilderInterface
-     */
     protected function addInteractiveLoginEventSubscriber(SecurityBuilderInterface $securityBuilder): SecurityBuilderInterface
     {
         return $securityBuilder->addEventSubscriber(function () {

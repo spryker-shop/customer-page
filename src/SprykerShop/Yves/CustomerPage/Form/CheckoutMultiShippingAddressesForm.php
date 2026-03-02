@@ -74,11 +74,6 @@ class CheckoutMultiShippingAddressesForm extends AbstractType
         return 'checkout_address_item';
     }
 
-    /**
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
-     *
-     * @return void
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -169,11 +164,6 @@ class CheckoutMultiShippingAddressesForm extends AbstractType
         ]);
     }
 
-    /**
-     * @param \Symfony\Component\Form\FormInterface $form
-     *
-     * @return bool
-     */
     protected function isDeliverToMultipleAddressesEnabled(FormInterface $form): bool
     {
         if ($form->has(CheckoutAddressForm::FIELD_ID_CUSTOMER_ADDRESS) !== true) {
@@ -185,11 +175,6 @@ class CheckoutMultiShippingAddressesForm extends AbstractType
         return $idCustomerAddress == CheckoutAddressForm::VALUE_DELIVER_TO_MULTIPLE_ADDRESSES;
     }
 
-    /**
-     * @param \Symfony\Component\Form\FormInterface $form
-     *
-     * @return bool
-     */
     protected function isNewAddressFormShouldNotBeValidated(FormInterface $form): bool
     {
         $skipValidation = $form->getExtraData()[AddressForm::EXTRA_FIELD_SKIP_VALIDATION] ?? null;
@@ -197,22 +182,12 @@ class CheckoutMultiShippingAddressesForm extends AbstractType
         return $skipValidation || $this->isIdCustomerAddressExistAndNotEmpty($form) || $this->isIdCompanyUnitAddressFieldExistAndNotEmpty($form);
     }
 
-    /**
-     * @param \Symfony\Component\Form\FormInterface $form
-     *
-     * @return bool
-     */
     protected function isIdCustomerAddressExistAndNotEmpty(FormInterface $form): bool
     {
         return $form->has(CheckoutAddressForm::FIELD_ID_CUSTOMER_ADDRESS)
             && $form->get(CheckoutAddressForm::FIELD_ID_CUSTOMER_ADDRESS)->getData();
     }
 
-    /**
-     * @param \Symfony\Component\Form\FormInterface $form
-     *
-     * @return bool
-     */
     protected function isIdCompanyUnitAddressFieldExistAndNotEmpty(FormInterface $form): bool
     {
         return $form->has(CheckoutAddressForm::FIELD_ID_COMPANY_UNIT_ADDRESS)
@@ -234,11 +209,6 @@ class CheckoutMultiShippingAddressesForm extends AbstractType
         return $this;
     }
 
-    /**
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
-     *
-     * @return void
-     */
     protected function configureOptionsByCheckoutMultiShippingAddressesFormExpanderPlugins(OptionsResolver $resolver): void
     {
         foreach ($this->getFactory()->getCheckoutMultiShippingAddressesFormExpanderPlugins() as $checkoutMultiShippingAddressesFormExpanderPlugin) {

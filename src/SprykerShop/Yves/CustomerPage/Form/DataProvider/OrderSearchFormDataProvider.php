@@ -22,10 +22,6 @@ class OrderSearchFormDataProvider
      */
     protected $currentTimezone;
 
-    /**
-     * @param \SprykerShop\Yves\CustomerPage\CustomerPageConfig $customerPageConfig
-     * @param string|null $currentTimezone
-     */
     public function __construct(CustomerPageConfig $customerPageConfig, ?string $currentTimezone)
     {
         $this->customerPageConfig = $customerPageConfig;
@@ -43,9 +39,6 @@ class OrderSearchFormDataProvider
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getOrderSearchTypes(): array
     {
         $searchTypes = [];
@@ -57,19 +50,11 @@ class OrderSearchFormDataProvider
         return $searchTypes;
     }
 
-    /**
-     * @return string|null
-     */
     protected function getStoreTimezone(): ?string
     {
         return $this->currentTimezone;
     }
 
-    /**
-     * @param string $searchType
-     *
-     * @return string
-     */
     protected function generateSearchTypeGlossaryKey(string $searchType): string
     {
         return sprintf('customer.order_history.search_type.%s', $searchType);

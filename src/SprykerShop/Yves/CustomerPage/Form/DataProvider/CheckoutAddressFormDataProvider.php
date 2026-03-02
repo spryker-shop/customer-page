@@ -236,11 +236,6 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
             || $shippingAddressTransfer->getIdCompanyUnitAddress() !== null;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return \Generated\Shared\Transfer\AddressTransfer
-     */
     protected function getBillingAddress(QuoteTransfer $quoteTransfer): AddressTransfer
     {
         if ($this->isBillingAddressInQuote($quoteTransfer)) {
@@ -255,11 +250,6 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
         return $addressTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return bool
-     */
     protected function isBillingAddressInQuote(QuoteTransfer $quoteTransfer): bool
     {
         $billingAddressTransfer = $quoteTransfer->getBillingAddress();
@@ -273,12 +263,6 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
             || (trim($billingAddressTransfer->getFirstName()) && trim($billingAddressTransfer->getLastName()));
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ItemTransfer $itemTransfer
-     * @param \Generated\Shared\Transfer\ShipmentTransfer|null $previouslySelectedShipmentMethod
-     *
-     * @return \Generated\Shared\Transfer\ShipmentTransfer
-     */
     protected function getItemShipment(ItemTransfer $itemTransfer, ?ShipmentTransfer $previouslySelectedShipmentMethod): ShipmentTransfer
     {
         $shipmentTransfer = $itemTransfer->getShipment();
@@ -296,11 +280,6 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
         return $shipmentTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ShipmentTransfer $shipmentTransfer
-     *
-     * @return \Generated\Shared\Transfer\AddressTransfer
-     */
     protected function getShipmentShippingAddress(ShipmentTransfer $shipmentTransfer): AddressTransfer
     {
         $addressTransfer = new AddressTransfer();
@@ -315,11 +294,6 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
         return $addressTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteTransfer
-     */
     protected function setItemLevelShippingAddresses(QuoteTransfer $quoteTransfer): QuoteTransfer
     {
         $previouslySelectedShipmentMethod = $this->resolveShipmentForSingleAddressDelivery($quoteTransfer);
@@ -331,11 +305,6 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
         return $quoteTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteTransfer
-     */
     protected function setBundleItemLevelShippingAddresses(QuoteTransfer $quoteTransfer): QuoteTransfer
     {
         $previouslySelectedShipmentMethod = $this->resolveShipmentForSingleAddressDelivery($quoteTransfer);
@@ -347,12 +316,6 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
         return $quoteTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ItemTransfer $itemTransfer
-     * @param \Generated\Shared\Transfer\ShipmentTransfer|null $previouslySelectedShipmentMethod
-     *
-     * @return \Generated\Shared\Transfer\ItemTransfer
-     */
     protected function addShippingAddressToItemTransfer(ItemTransfer $itemTransfer, ?ShipmentTransfer $previouslySelectedShipmentMethod): ItemTransfer
     {
         $shipmentTransfer = $itemTransfer->getShipment();
@@ -370,11 +333,6 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
         return $itemTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return \Generated\Shared\Transfer\QuoteTransfer
-     */
     protected function setBillingSameAsShipping(QuoteTransfer $quoteTransfer): QuoteTransfer
     {
         /** @var \Generated\Shared\Transfer\ItemTransfer $itemTransfer */
@@ -396,11 +354,6 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
         return $quoteTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return bool
-     */
     protected function canDeliverToMultipleShippingAddresses(QuoteTransfer $quoteTransfer): bool
     {
         $items = $this->productBundleClient->getGroupedBundleItems(
@@ -413,11 +366,6 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
             && !$this->hasQuoteGiftCardItems($quoteTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return bool
-     */
     protected function hasQuoteGiftCardItems(QuoteTransfer $quoteTransfer): bool
     {
         foreach ($quoteTransfer->getItems() as $itemTransfer) {
@@ -434,11 +382,6 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
         return false;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return \Generated\Shared\Transfer\ShipmentTransfer|null
-     */
     protected function resolveShipmentForSingleAddressDelivery(QuoteTransfer $quoteTransfer): ?ShipmentTransfer
     {
         if ($quoteTransfer->getItems()->count() === 0) {
@@ -467,11 +410,6 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
         });
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AddressTransfer $shipmentShippingAddress
-     *
-     * @return bool
-     */
     protected function isShippingAddressDefined(AddressTransfer $shipmentShippingAddress): bool
     {
         return $shipmentShippingAddress->getIdCustomerAddress() || $shipmentShippingAddress->getIdCompanyUnitAddress();

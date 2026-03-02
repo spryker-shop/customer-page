@@ -11,12 +11,6 @@ use Generated\Shared\Transfer\AddressTransfer;
 
 interface CustomerMapperInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\AddressTransfer $customerAddressTransfer
-     * @param \Generated\Shared\Transfer\AddressTransfer $addressTransfer
-     *
-     * @return \Generated\Shared\Transfer\AddressTransfer
-     */
     public function mapCustomerAddressTransferToAddressTransfer(
         AddressTransfer $customerAddressTransfer,
         AddressTransfer $addressTransfer

@@ -267,11 +267,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addLoginRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/login', 'CustomerPage', 'Auth', 'loginAction');
@@ -280,11 +275,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addLogoutRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/logout', 'CustomerPage', 'Auth', 'logoutAction');
@@ -293,11 +283,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addRegisterRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/register', 'CustomerPage', 'Register', 'indexAction');
@@ -306,11 +291,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addForgottenPasswordRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/password/forgotten', 'CustomerPage', 'Password', 'forgottenPasswordAction');
@@ -319,11 +299,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addRestorePasswordRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/password/restore', 'CustomerPage', 'Password', 'restorePasswordAction');
@@ -332,11 +307,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addCustomerOverviewRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/customer/overview', 'CustomerPage', 'Customer', 'indexAction');
@@ -345,11 +315,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addCustomerProfileRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/customer/profile', 'CustomerPage', 'Profile', 'indexAction');
@@ -358,11 +323,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addCustomerAddressRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/customer/address', 'CustomerPage', 'Address', 'indexAction');
@@ -371,11 +331,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addNewCustomerAddressRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/customer/address/new', 'CustomerPage', 'Address', 'createAction');
@@ -384,11 +339,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addUpdateCustomerAddressRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/customer/address/update', 'CustomerPage', 'Address', 'updateAction');
@@ -397,11 +347,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addDeleteCustomerAddressRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/customer/address/delete', 'CustomerPage', 'Address', 'deleteAction');
@@ -410,11 +355,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addRefreshCustomerAddressRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/customer/address/refresh', 'CustomerPage', 'Address', 'refreshAction');
@@ -423,11 +363,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addCustomerOrderRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/customer/order', 'CustomerPage', 'Order', 'indexAction');
@@ -436,11 +371,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addCustomerOrderDetailsRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/customer/order/details', 'CustomerPage', 'Order', 'detailsAction');
@@ -449,11 +379,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addCustomerDeleteRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildRoute('/customer/delete', 'CustomerPage', 'Delete', 'indexAction');
@@ -462,11 +387,6 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         return $routeCollection;
     }
 
-    /**
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
-     */
     protected function addCustomerDeleteConfirmRoute(RouteCollection $routeCollection): RouteCollection
     {
         $route = $this->buildPostRoute('/customer/delete/confirm', 'CustomerPage', 'Delete', 'confirmAction');

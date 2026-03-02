@@ -24,10 +24,6 @@ class CustomerAuthenticator implements CustomerAuthenticatorInterface
      */
     protected $tokenStorage;
 
-    /**
-     * @param \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToCustomerClientInterface $customerClient
-     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage
-     */
     public function __construct(
         CustomerPageToCustomerClientInterface $customerClient,
         TokenStorageInterface $tokenStorage
@@ -36,12 +32,6 @@ class CustomerAuthenticator implements CustomerAuthenticatorInterface
         $this->tokenStorage = $tokenStorage;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\CustomerTransfer $customerTransfer
-     * @param \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token
-     *
-     * @return void
-     */
     public function authenticateCustomer(CustomerTransfer $customerTransfer, TokenInterface $token): void
     {
         $this->tokenStorage->setToken($token);

@@ -9,8 +9,5 @@ namespace SprykerShop\Yves\CustomerPage\Dependency\Client;
 
 interface CustomerPageToShipmentClientInterface
 {
-    /**
-     * @return bool
-     */
     public function isMultiShipmentSelectionEnabled(): bool;
 }

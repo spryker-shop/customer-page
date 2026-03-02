@@ -80,24 +80,15 @@ class Customer implements CustomerUserInterface, PasswordAuthenticatedUserInterf
         return $this->password;
     }
 
-    /**
-     * @return string
-     */
     public function getUserIdentifier(): string
     {
         return $this->username;
     }
 
-    /**
-     * @return void
-     */
     public function eraseCredentials(): void
     {
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\CustomerTransfer
-     */
     public function getCustomerTransfer(): CustomerTransfer
     {
         return $this->customerTransfer;

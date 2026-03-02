@@ -27,10 +27,6 @@ abstract class AbstractAddressFormDataProvider
      */
     protected $storeClient;
 
-    /**
-     * @param \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToCustomerClientInterface $customerClient
-     * @param \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToStoreClientInterface $storeClient
-     */
     public function __construct(CustomerPageToCustomerClientInterface $customerClient, CustomerPageToStoreClientInterface $storeClient)
     {
         $this->customerClient = $customerClient;

@@ -108,11 +108,6 @@ class ShipmentGroupExpander implements ShipmentGroupExpanderInterface
         return $bundleItems;
     }
 
-    /**
-     * @param string $bundleItemIdentifier
-     *
-     * @return string
-     */
     protected function generateKey(string $bundleItemIdentifier): string
     {
         return static::BUNDLE_KEY_PREFIX . $bundleItemIdentifier;

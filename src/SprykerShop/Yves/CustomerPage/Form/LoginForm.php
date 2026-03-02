@@ -130,17 +130,11 @@ class LoginForm extends AbstractType
         return $this;
     }
 
-    /**
-     * @return \Symfony\Component\Validator\Constraints\NotBlank
-     */
     protected function createNotBlankConstraint(): NotBlank
     {
         return new NotBlank(['message' => static::VALIDATION_NOT_BLANK_MESSAGE]);
     }
 
-    /**
-     * @return \Symfony\Component\Validator\Constraints\Email
-     */
     protected function createEmailConstraint(): Email
     {
         return new Email(['message' => static::VALIDATION_EMAIL_MESSAGE]);

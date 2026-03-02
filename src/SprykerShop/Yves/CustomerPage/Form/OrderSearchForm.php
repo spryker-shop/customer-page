@@ -77,11 +77,6 @@ class OrderSearchForm extends AbstractType
      */
     public const FORM_NAME = 'orderSearchForm';
 
-    /**
-     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
-     *
-     * @return void
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -92,9 +87,6 @@ class OrderSearchForm extends AbstractType
         ]);
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return static::FORM_NAME;

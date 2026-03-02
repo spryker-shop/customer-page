@@ -14,10 +14,6 @@ use Spryker\Yves\Kernel\Widget\AbstractWidget;
  */
 class CustomerNavigationWidget extends AbstractWidget
 {
-    /**
-     * @param string $activePage
-     * @param int|null $activeEntityId
-     */
     public function __construct(string $activePage, ?int $activeEntityId = null)
     {
         $this->addParameter('activePage', $activePage)
@@ -27,17 +23,11 @@ class CustomerNavigationWidget extends AbstractWidget
         $this->addWidgets($this->getFactory()->getCustomerMenuItemWidgetPlugins());
     }
 
-    /**
-     * @return string
-     */
     public static function getName(): string
     {
         return 'CustomerNavigationWidget';
     }
 
-    /**
-     * @return string
-     */
     public static function getTemplate(): string
     {
         return '@CustomerPage/views/customer-navigation/customer-navigation.twig';

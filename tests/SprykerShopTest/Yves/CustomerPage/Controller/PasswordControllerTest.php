@@ -29,9 +29,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class PasswordControllerTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testForgottenPasswordActionAddsPasswordResetRequestedAuditLog(): void
     {
         // Arrange
@@ -41,9 +38,6 @@ class PasswordControllerTest extends Unit
         $passwordResetController->forgottenPasswordAction(new Request());
     }
 
-    /**
-     * @return void
-     */
     public function testRestorePasswordActionAddsPasswordUpdatedAfterResetAuditLog(): void
     {
         // Arrange
@@ -53,9 +47,6 @@ class PasswordControllerTest extends Unit
         $passwordResetController->restorePasswordAction(new Request());
     }
 
-    /**
-     * @return void
-     */
     public function testExecuteRestorePasswordActionWithLocaleRedirectsWithCorrectRoute(): void
     {
         // Arrange
@@ -90,11 +81,6 @@ class PasswordControllerTest extends Unit
         $passwordControllerMock->restorePasswordAction($request);
     }
 
-    /**
-     * @param string $expectedAuditLogMessage
-     *
-     * @return \SprykerShop\Yves\CustomerPage\Controller\PasswordController
-     */
     protected function getPasswordControllerMock(string $expectedAuditLogMessage): PasswordController
     {
         $passwordControllerMock = $this->getMockBuilder(PasswordController::class)

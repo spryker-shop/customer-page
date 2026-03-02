@@ -39,11 +39,6 @@ class PasswordController extends AbstractCustomerController
         return $this->view($viewData, [], '@customerPage/views/password-forgotten/password-forgotten.twig');
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return void
-     */
     protected function incrementPasswordResetBlocker(Request $request): void
     {
         $config = $this->getFactory()->getConfig();
@@ -62,11 +57,6 @@ class PasswordController extends AbstractCustomerController
             ->incrementLoginAttemptCount($securityCheckAuthContextTransfer);
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return bool
-     */
     protected function isPasswordResetBlocked(Request $request): bool
     {
         $config = $this->getFactory()->getConfig();

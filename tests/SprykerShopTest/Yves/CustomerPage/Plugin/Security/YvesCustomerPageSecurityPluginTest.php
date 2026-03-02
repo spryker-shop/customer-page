@@ -42,9 +42,6 @@ class YvesCustomerPageSecurityPluginTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -80,9 +77,6 @@ class YvesCustomerPageSecurityPluginTest extends Unit
         $property->setValue(null);
     }
 
-    /**
-     * @return void
-     */
     public function testCustomerCanLogin(): void
     {
         // Arrange
@@ -107,9 +101,6 @@ class YvesCustomerPageSecurityPluginTest extends Unit
         $this->assertSame('authenticated', $httpKernelBrowser->getResponse()->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testCustomerAccessDenied(): void
     {
         // Arrange

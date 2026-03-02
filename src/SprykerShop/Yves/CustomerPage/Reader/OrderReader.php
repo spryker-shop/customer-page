@@ -48,11 +48,6 @@ class OrderReader implements OrderReaderInterface
      */
     protected $customerPageConfig;
 
-    /**
-     * @param \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToSalesClientInterface $salesClient
-     * @param \SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToCustomerClientInterface $customerClient
-     * @param \SprykerShop\Yves\CustomerPage\CustomerPageConfig $customerPageConfig
-     */
     public function __construct(
         CustomerPageToSalesClientInterface $salesClient,
         CustomerPageToCustomerClientInterface $customerClient,
@@ -63,12 +58,6 @@ class OrderReader implements OrderReaderInterface
         $this->customerClient = $customerClient;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Generated\Shared\Transfer\OrderListTransfer $orderListTransfer
-     *
-     * @return \Generated\Shared\Transfer\OrderListTransfer
-     */
     public function getOrderList(Request $request, OrderListTransfer $orderListTransfer): OrderListTransfer
     {
         $orderListTransfer = $this->expandOrderListTransfer($request, $orderListTransfer);
@@ -80,12 +69,6 @@ class OrderReader implements OrderReaderInterface
         return $this->salesClient->getPaginatedCustomerOrdersOverview($orderListTransfer);
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Generated\Shared\Transfer\OrderListTransfer $orderListTransfer
-     *
-     * @return \Generated\Shared\Transfer\OrderListTransfer
-     */
     protected function expandOrderListTransfer(Request $request, OrderListTransfer $orderListTransfer): OrderListTransfer
     {
         $customerTransfer = $this->customerClient->getCustomer();
@@ -109,9 +92,6 @@ class OrderReader implements OrderReaderInterface
         return $orderListTransfer;
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\FilterTransfer
-     */
     protected function createFilterTransfer(): FilterTransfer
     {
         $filterTransfer = new FilterTransfer();
@@ -121,11 +101,6 @@ class OrderReader implements OrderReaderInterface
         return $filterTransfer;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Generated\Shared\Transfer\PaginationTransfer
-     */
     protected function createPaginationTransfer(Request $request): PaginationTransfer
     {
         $paginationTransfer = new PaginationTransfer();

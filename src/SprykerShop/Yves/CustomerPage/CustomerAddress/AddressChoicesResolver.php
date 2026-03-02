@@ -77,11 +77,6 @@ class AddressChoicesResolver implements AddressChoicesResolverInterface
         return $choices;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AddressTransfer $addressTransfer
-     *
-     * @return string
-     */
     protected function getAddressLabel(AddressTransfer $addressTransfer): string
     {
         return sprintf(
@@ -125,12 +120,6 @@ class AddressChoicesResolver implements AddressChoicesResolverInterface
         return $sanitizedChoices;
     }
 
-    /**
-     * @param string $addressLabel
-     * @param int $itemNumber
-     *
-     * @return string
-     */
     protected function getSanitizedCustomerAddressChoices(string $addressLabel, int $itemNumber): string
     {
         return sprintf(static::SANITIZED_CUSTOMER_ADDRESS_LABEL_PATTERN, $addressLabel, $itemNumber);
@@ -153,11 +142,6 @@ class AddressChoicesResolver implements AddressChoicesResolverInterface
         return $customerAddressChoices;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AddressesTransfer|null $customerAddressesTransfer
-     *
-     * @return bool
-     */
     protected function isCustomerHasAddress(?AddressesTransfer $customerAddressesTransfer): bool
     {
         return $customerAddressesTransfer !== null && count($customerAddressesTransfer->getAddresses()) !== 0;

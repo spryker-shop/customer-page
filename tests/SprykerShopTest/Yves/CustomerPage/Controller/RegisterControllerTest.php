@@ -23,9 +23,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RegisterControllerTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testExecuteConfirmActionWithLocaleRedirectsWithCorrectRoute(): void
     {
         // Arrange

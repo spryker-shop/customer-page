@@ -12,11 +12,5 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface OrderReaderInterface
 {
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Generated\Shared\Transfer\OrderListTransfer $orderListTransfer
-     *
-     * @return \Generated\Shared\Transfer\OrderListTransfer
-     */
     public function getOrderList(Request $request, OrderListTransfer $orderListTransfer): OrderListTransfer;
 }

@@ -75,14 +75,6 @@ class CustomerLoginFormAuthenticator implements AuthenticatorInterface, Authenti
      */
     protected const ACCESS_MODE_PRE_AUTH = 'ACCESS_MODE_PRE_AUTH';
 
-    /**
-     * @param \Symfony\Component\Security\Core\User\UserProviderInterface $userProvider
-     * @param \Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge $rememberMeBadge
-     * @param \Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface $authenticationSuccessHandler
-     * @param \Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface $authenticationFailureHandler
-     * @param \Spryker\Yves\Router\Router\ChainRouter $router
-     * @param \SprykerShop\Yves\CustomerPage\Badge\MultiFactorAuthBadge $multiFactorAuthBadge
-     */
     public function __construct(
         protected UserProviderInterface $userProvider,
         protected RememberMeBadge $rememberMeBadge,
@@ -93,11 +85,6 @@ class CustomerLoginFormAuthenticator implements AuthenticatorInterface, Authenti
     ) {
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\Security\Http\Authenticator\Passport\Passport
-     */
     public function authenticate(Request $request): Passport
     {
         $data = $request->request->all(static::PARAMETER_LOGIN_FORM);
@@ -124,56 +111,26 @@ class CustomerLoginFormAuthenticator implements AuthenticatorInterface, Authenti
         );
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return bool|null
-     */
     public function supports(Request $request): ?bool
     {
         return $request->request->has(static::PARAMETER_LOGIN_FORM);
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token
-     * @param string $firewallName
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): Response
     {
         return $this->authenticationSuccessHandler->onAuthenticationSuccess($request, $token);
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Symfony\Component\Security\Core\Exception\AuthenticationException $exception
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         return $this->authenticationFailureHandler->onAuthenticationFailure($request, $exception);
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Symfony\Component\Security\Core\Exception\AuthenticationException|null $authException
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
     public function start(Request $request, ?AuthenticationException $authException = null): RedirectResponse
     {
         return new RedirectResponse($this->router->generate(static::ROUTE_LOGIN));
     }
 
-    /**
-     * @param \Symfony\Component\Security\Http\Authenticator\Passport\Passport $passport
-     * @param string $firewallName
-     *
-     * @return \Symfony\Component\Security\Core\Authentication\Token\TokenInterface
-     */
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
         return new PostAuthenticationToken(
@@ -197,11 +154,6 @@ class CustomerLoginFormAuthenticator implements AuthenticatorInterface, Authenti
         return $this->createToken($passport, $firewallName);
     }
 
-    /**
-     * @param \Symfony\Component\Security\Http\Authenticator\Passport\Passport $passport
-     *
-     * @return bool
-     */
     protected function assertUserIsPreAuthenticated(Passport $passport): bool
     {
         /** @var \SprykerShop\Yves\CustomerPage\Badge\MultiFactorAuthBadge $multiFactorAuthBadge */

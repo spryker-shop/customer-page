@@ -123,11 +123,6 @@ class RegisterController extends AbstractCustomerController
         return $customerResponseTransfer;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
     public function confirmAction(Request $request): RedirectResponse
     {
         $response = $this->executeConfirmAction($request);
@@ -135,11 +130,6 @@ class RegisterController extends AbstractCustomerController
         return $response;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
     protected function executeConfirmAction(Request $request): RedirectResponse
     {
         $token = (string)$request->query->get('token');

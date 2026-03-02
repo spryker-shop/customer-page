@@ -25,9 +25,6 @@ use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
  */
 class CustomerAuthenticationSuccessHandlerTest extends AbstractHandlerTest
 {
-    /**
-     * @return void
-     */
     public function testOnAuthenticationSuccessAddsSuccessfulLoginAuditLogOnSuccessfulLogin(): void
     {
         // Arrange
@@ -39,11 +36,6 @@ class CustomerAuthenticationSuccessHandlerTest extends AbstractHandlerTest
         $customerAuthenticationSuccessHandler->onAuthenticationSuccess($request, $this->getPostAuthenticationTokenMock());
     }
 
-    /**
-     * @param string $expectedMessage
-     *
-     * @return \SprykerShop\Yves\CustomerPage\Plugin\Provider\CustomerAuthenticationSuccessHandler
-     */
     protected function getCustomerAuthenticationSuccessHandler(
         string $expectedMessage
     ): CustomerAuthenticationSuccessHandler {

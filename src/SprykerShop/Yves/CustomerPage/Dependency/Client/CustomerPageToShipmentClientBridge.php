@@ -22,9 +22,6 @@ class CustomerPageToShipmentClientBridge implements CustomerPageToShipmentClient
         $this->shipmentClient = $shipmentClient;
     }
 
-    /**
-     * @return bool
-     */
     public function isMultiShipmentSelectionEnabled(): bool
     {
         return $this->shipmentClient->isMultiShipmentSelectionEnabled();
