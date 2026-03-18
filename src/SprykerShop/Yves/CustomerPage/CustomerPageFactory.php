@@ -8,16 +8,21 @@
 namespace SprykerShop\Yves\CustomerPage;
 
 use Generated\Shared\Transfer\CustomerTransfer;
+use Spryker\Service\Http\HttpServiceInterface;
+use Spryker\Shared\Kernel\StrategyResolver;
+use Spryker\Shared\Kernel\StrategyResolverInterface;
 use Spryker\Shared\Twig\TwigFunctionProvider;
 use Spryker\Yves\Kernel\AbstractFactory;
 use Spryker\Yves\Router\Router\ChainRouter;
-use SprykerShop\Shared\CustomerPage\CustomerPageConfig;
+use SprykerShop\Shared\CustomerPage\CustomerPageConfig as SharedCustomerPageConfig;
 use SprykerShop\Yves\CustomerPage\Authenticator\CustomerAuthenticator;
 use SprykerShop\Yves\CustomerPage\Authenticator\CustomerAuthenticatorInterface;
 use SprykerShop\Yves\CustomerPage\Authenticator\CustomerLoginFormAuthenticator;
 use SprykerShop\Yves\CustomerPage\Badge\MultiFactorAuthBadge;
 use SprykerShop\Yves\CustomerPage\Builder\CustomerSecurityOptionsBuilder;
 use SprykerShop\Yves\CustomerPage\Builder\CustomerSecurityOptionsBuilderInterface;
+use SprykerShop\Yves\CustomerPage\Checker\LastVisitedPageUrlChecker;
+use SprykerShop\Yves\CustomerPage\Checker\LastVisitedPageUrlCheckerInterface;
 use SprykerShop\Yves\CustomerPage\CustomerAddress\AddressChoicesResolver;
 use SprykerShop\Yves\CustomerPage\CustomerAddress\AddressChoicesResolverInterface;
 use SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToCustomerClientInterface;
@@ -30,6 +35,7 @@ use SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToShipmentClient
 use SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToStoreClientInterface;
 use SprykerShop\Yves\CustomerPage\Dependency\Service\CustomerPageToCustomerServiceInterface;
 use SprykerShop\Yves\CustomerPage\Dependency\Service\CustomerPageToShipmentServiceInterface;
+use SprykerShop\Yves\CustomerPage\EventSubscriber\LastVisitedPageEventSubscriber;
 use SprykerShop\Yves\CustomerPage\Expander\CustomerAddressExpander;
 use SprykerShop\Yves\CustomerPage\Expander\CustomerAddressExpanderInterface;
 use SprykerShop\Yves\CustomerPage\Expander\CustomerRememberMeExpander;
@@ -62,7 +68,11 @@ use SprykerShop\Yves\CustomerPage\Plugin\Security\CustomerPageSecurityPlugin;
 use SprykerShop\Yves\CustomerPage\Plugin\Subscriber\InteractiveLoginEventSubscriber;
 use SprykerShop\Yves\CustomerPage\Reader\OrderReader;
 use SprykerShop\Yves\CustomerPage\Reader\OrderReaderInterface;
+use SprykerShop\Yves\CustomerPage\Resolver\LastVisitedPageRedirectResolver;
+use SprykerShop\Yves\CustomerPage\Resolver\LastVisitedPageRedirectResolverInterface;
 use SprykerShop\Yves\CustomerPage\Security\Customer;
+use SprykerShop\Yves\CustomerPage\Storage\LastVisitedPageCookieStorage;
+use SprykerShop\Yves\CustomerPage\Storage\LastVisitedPageStorageInterface;
 use SprykerShop\Yves\CustomerPage\Twig\GetUsernameTwigFunctionProvider;
 use SprykerShop\Yves\CustomerPage\Twig\IsLoggedTwigFunctionProvider;
 use SprykerShop\Yves\CustomerPage\UserChecker\CustomerConfirmationUserChecker;
@@ -157,14 +167,14 @@ class CustomerPageFactory extends AbstractFactory
             return new UsernamePasswordToken(
                 $user,
                 $user->getPassword(),
-                CustomerPageConfig::SECURITY_FIREWALL_NAME,
+                SharedCustomerPageConfig::SECURITY_FIREWALL_NAME,
                 [CustomerPageSecurityPlugin::ROLE_NAME_USER],
             );
         }
 
         return new UsernamePasswordToken(
             $user,
-            CustomerPageConfig::SECURITY_FIREWALL_NAME,
+            SharedCustomerPageConfig::SECURITY_FIREWALL_NAME,
             [CustomerPageSecurityPlugin::ROLE_NAME_USER],
         );
     }
@@ -623,5 +633,51 @@ class CustomerPageFactory extends AbstractFactory
     public function getSessionClient(): CustomerPageToSessionClientInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_SESSION);
+    }
+
+    public function createLastVisitedPageEventSubscriber(): EventSubscriberInterface
+    {
+        return new LastVisitedPageEventSubscriber(
+            $this->createLastVisitedPageUrlChecker(),
+            $this->createLastVisitedPageStorageResolver()->get($this->getConfig()->getLastVisitedPageStorageType()),
+        );
+    }
+
+    public function createLastVisitedPageUrlChecker(): LastVisitedPageUrlCheckerInterface
+    {
+        return new LastVisitedPageUrlChecker(
+            $this->getCustomerClient(),
+            $this->getHttpService(),
+        );
+    }
+
+    /**
+     * @return \Spryker\Shared\Kernel\StrategyResolverInterface<\SprykerShop\Yves\CustomerPage\Storage\LastVisitedPageStorageInterface>
+     */
+    public function createLastVisitedPageStorageResolver(): StrategyResolverInterface
+    {
+        return new StrategyResolver(
+            [$this->getConfig()->getLastVisitedPageStorageType() => $this->createLastVisitedPageCookieStorage()],
+            $this->getConfig()->getLastVisitedPageStorageType(),
+        );
+    }
+
+    public function createLastVisitedPageCookieStorage(): LastVisitedPageStorageInterface
+    {
+        return new LastVisitedPageCookieStorage($this->getConfig());
+    }
+
+    public function createLastVisitedPageRedirectResolver(): LastVisitedPageRedirectResolverInterface
+    {
+        return new LastVisitedPageRedirectResolver(
+            $this->getRequestStack(),
+            $this->createLastVisitedPageStorageResolver()->get($this->getConfig()->getLastVisitedPageStorageType()),
+            $this->getHttpService(),
+        );
+    }
+
+    public function getHttpService(): HttpServiceInterface
+    {
+        return $this->getProvidedDependency(CustomerPageDependencyProvider::SERVICE_HTTP);
     }
 }

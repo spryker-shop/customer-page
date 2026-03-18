@@ -31,4 +31,14 @@ interface CustomerPageConstants
      * @var string
      */
     public const IS_STORE_ROUTING_ENABLED = 'CUSTOMER_PAGE:IS_STORE_ROUTING_ENABLED';
+
+    /**
+     * Specification:
+     * - Defines whether the last visited page cookie should be sent over HTTPS only.
+     *
+     * @api
+     *
+     * @var string
+     */
+    public const string YVES_IS_SSL_ENABLED = 'CUSTOMER_PAGE:YVES_IS_SSL_ENABLED';
 }

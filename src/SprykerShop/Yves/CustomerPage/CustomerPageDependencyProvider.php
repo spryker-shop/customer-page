@@ -7,6 +7,7 @@
 
 namespace SprykerShop\Yves\CustomerPage;
 
+use Spryker\Service\Http\HttpServiceInterface;
 use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
 use Spryker\Yves\Kernel\Plugin\Pimple;
@@ -237,6 +238,8 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
      */
     public const CLIENT_SESSION = 'CLIENT_SESSION';
 
+    public const string SERVICE_HTTP = 'SERVICE_HTTP';
+
     public function provideDependencies(Container $container): Container
     {
         $container = $this->addCustomerClient($container);
@@ -275,6 +278,7 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->addSecurityBlockerClient($container);
         $container = $this->addCustomerAuthenticationHandlerPlugins($container);
         $container = $this->addSessionClient($container);
+        $container = $this->addHttpService($container);
 
         return $container;
     }
@@ -744,6 +748,15 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
             return new CustomerPageToSessionClientBridge(
                 $container->getLocator()->session()->client(),
             );
+        });
+
+        return $container;
+    }
+
+    protected function addHttpService(Container $container): Container
+    {
+        $container->set(static::SERVICE_HTTP, function (Container $container): HttpServiceInterface {
+            return $container->getLocator()->http()->service();
         });
 
         return $container;
