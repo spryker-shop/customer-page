@@ -10,6 +10,9 @@ namespace SprykerShop\Yves\CustomerPage\Plugin\Router;
 use Spryker\Yves\Router\Plugin\RouteProvider\AbstractRouteProviderPlugin;
 use Spryker\Yves\Router\Route\RouteCollection;
 
+/**
+ * @method \SprykerShop\Yves\CustomerPage\CustomerPageConfig getConfig()
+ */
 class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
 {
     /**
@@ -263,6 +266,7 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
         $routeCollection = $this->addCustomerDeleteConfirmRoute($routeCollection);
         $routeCollection = $this->addAccessTokenRoute($routeCollection);
         $routeCollection = $this->addRegistrationConfirmedRoute($routeCollection);
+        $routeCollection = $this->addOauthCallbackRoute($routeCollection);
 
         return $routeCollection;
     }
@@ -422,6 +426,23 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
     {
         $route = $this->buildRoute('/register/confirm', 'CustomerPage', 'Register', 'confirmAction');
         $routeCollection->add(static::ROUTE_NAME_CONFIRM_REGISTRATION, $route);
+
+        return $routeCollection;
+    }
+
+    /**
+     * @uses \SprykerShop\Yves\CustomerPage\Controller\OauthLoginController::callbackAction()
+     */
+    protected function addOauthCallbackRoute(RouteCollection $routeCollection): RouteCollection
+    {
+        $route = $this->buildRoute(
+            $this->getConfig()->getOauthCallbackRoutePath(),
+            'CustomerPage',
+            'OauthLogin',
+            'callbackAction',
+        );
+
+        $routeCollection->add($this->getConfig()->getOauthCallbackRouteName(), $route);
 
         return $routeCollection;
     }

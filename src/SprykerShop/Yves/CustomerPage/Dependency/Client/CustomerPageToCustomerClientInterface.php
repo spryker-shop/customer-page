@@ -10,6 +10,8 @@ namespace SprykerShop\Yves\CustomerPage\Dependency\Client;
 use Generated\Shared\Transfer\AddressTransfer;
 use Generated\Shared\Transfer\CustomerResponseTransfer;
 use Generated\Shared\Transfer\CustomerTransfer;
+use Generated\Shared\Transfer\OauthCustomerResolveRequestTransfer;
+use Generated\Shared\Transfer\OauthCustomerResolveResponseTransfer;
 
 interface CustomerPageToCustomerClientInterface
 {
@@ -129,4 +131,6 @@ interface CustomerPageToCustomerClientInterface
     public function getCustomerByAccessToken(string $accessToken): CustomerResponseTransfer;
 
     public function confirmCustomerRegistration(CustomerTransfer $customerTransfer): CustomerResponseTransfer;
+
+    public function resolveCustomer(OauthCustomerResolveRequestTransfer $oauthCustomerResolveRequestTransfer): OauthCustomerResolveResponseTransfer;
 }

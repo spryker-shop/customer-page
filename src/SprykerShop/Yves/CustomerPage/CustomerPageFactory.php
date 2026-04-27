@@ -60,6 +60,13 @@ use SprykerShop\Yves\CustomerPage\Mapper\CustomerMapper;
 use SprykerShop\Yves\CustomerPage\Mapper\CustomerMapperInterface;
 use SprykerShop\Yves\CustomerPage\Mapper\ItemStateMapper;
 use SprykerShop\Yves\CustomerPage\Mapper\ItemStateMapperInterface;
+use SprykerShop\Yves\CustomerPage\Oauth\Authenticator\OauthCustomerTokenAuthenticator;
+use SprykerShop\Yves\CustomerPage\Oauth\Expander\OauthSecurityBuilderExpander;
+use SprykerShop\Yves\CustomerPage\Oauth\Expander\OauthSecurityBuilderExpanderInterface;
+use SprykerShop\Yves\CustomerPage\Oauth\Reader\ResourceOwnerReader;
+use SprykerShop\Yves\CustomerPage\Oauth\Reader\ResourceOwnerReaderInterface;
+use SprykerShop\Yves\CustomerPage\Oauth\Security\Handler\OauthCustomerAuthenticationFailureHandler;
+use SprykerShop\Yves\CustomerPage\Oauth\Security\Handler\OauthCustomerAuthenticationSuccessHandler;
 use SprykerShop\Yves\CustomerPage\Plugin\Provider\AccessDeniedHandler;
 use SprykerShop\Yves\CustomerPage\Plugin\Provider\CustomerAuthenticationFailureHandler;
 use SprykerShop\Yves\CustomerPage\Plugin\Provider\CustomerAuthenticationSuccessHandler;
@@ -84,6 +91,8 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Authorization\AccessDeniedHandlerInterface;
@@ -679,5 +688,62 @@ class CustomerPageFactory extends AbstractFactory
     public function getHttpService(): HttpServiceInterface
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::SERVICE_HTTP);
+    }
+
+    public function createOauthSecurityBuilderExpander(): OauthSecurityBuilderExpanderInterface
+    {
+        return new OauthSecurityBuilderExpander(
+            $this->getConfig(),
+            $this->createOauthCustomerTokenAuthenticator(),
+        );
+    }
+
+    public function createOauthCustomerTokenAuthenticator(): AuthenticatorInterface
+    {
+        return new OauthCustomerTokenAuthenticator(
+            $this->createResourceOwnerReader(),
+            $this->getCustomerClient(),
+            $this->createOauthCustomerAuthenticationSuccessHandler(),
+            $this->createOauthCustomerAuthenticationFailureHandler(),
+            $this->getConfig(),
+        );
+    }
+
+    public function createOauthCustomerAuthenticationSuccessHandler(): AuthenticationSuccessHandlerInterface
+    {
+        return new OauthCustomerAuthenticationSuccessHandler(
+            $this->getCustomerClient(),
+        );
+    }
+
+    public function createOauthCustomerAuthenticationFailureHandler(): AuthenticationFailureHandlerInterface
+    {
+        return new OauthCustomerAuthenticationFailureHandler(
+            $this->getFlashMessenger(),
+            $this->getRouter(),
+        );
+    }
+
+    public function createResourceOwnerReader(): ResourceOwnerReaderInterface
+    {
+        return new ResourceOwnerReader(
+            $this->getOauthCustomerClientStrategyPlugins(),
+        );
+    }
+
+    /**
+     * @return array<\SprykerShop\Yves\CustomerPageExtension\Dependency\Plugin\OauthCustomerClientStrategyPluginInterface>
+     */
+    public function getOauthCustomerClientStrategyPlugins(): array
+    {
+        return $this->getProvidedDependency(CustomerPageDependencyProvider::PLUGINS_OAUTH_CUSTOMER_CLIENT_STRATEGY);
+    }
+
+    /**
+     * @return array<\SprykerShop\Yves\CustomerPageExtension\Dependency\Plugin\CustomerAuthenticationLinkPluginInterface>
+     */
+    public function getCustomerAuthenticationLinkPlugins(): array
+    {
+        return $this->getProvidedDependency(CustomerPageDependencyProvider::PLUGINS_CUSTOMER_AUTHENTICATION_LINK);
     }
 }

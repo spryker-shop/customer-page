@@ -396,4 +396,16 @@
         <property name="customer" type="Customer"/>
     </transfer>
 
+    <transfer name="ResourceOwnerRequest">
+    </transfer>
+
+    <transfer name="ResourceOwnerResponse">
+    </transfer>
+
+    <transfer name="OauthCustomerResolveRequest" strict="true">
+    </transfer>
+
+    <transfer name="OauthCustomerResolveResponse" strict="true">
+    </transfer>
+
 </transfers>

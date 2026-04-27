@@ -54,6 +54,8 @@
                 }
             } only %}
 
+            {% widget 'OauthAuthenticationLinksWidget' only %}{% endwidget %}
+
             {% widget 'MultiFactorAuthHandlerWidget' with {
                 data: {
                     id: data.forms.login.vars.name,

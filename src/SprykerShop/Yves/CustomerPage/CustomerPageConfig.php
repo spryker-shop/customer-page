@@ -120,6 +120,10 @@ class CustomerPageConfig extends AbstractBundleConfig
      */
     protected const CUSTOMER_SECURITY_BLOCKER_ENABLED = false;
 
+    protected const string ROUTE_NAME_OAUTH_CALLBACK = 'security-oauth-customer-callback';
+
+    protected const string ROUTE_PATH_OAUTH_CALLBACK = '/login/oauth-callback';
+
     /**
      * Specification:
      * - Checks if the security blocker is enabled.
@@ -433,5 +437,21 @@ class CustomerPageConfig extends AbstractBundleConfig
     public function getLastVisitedPageCookieExpires(): int
     {
         return 0;
+    }
+
+    /**
+     * @api
+     */
+    public function getOauthCallbackRouteName(): string
+    {
+        return static::ROUTE_NAME_OAUTH_CALLBACK;
+    }
+
+    /**
+     * @api
+     */
+    public function getOauthCallbackRoutePath(): string
+    {
+        return static::ROUTE_PATH_OAUTH_CALLBACK;
     }
 }

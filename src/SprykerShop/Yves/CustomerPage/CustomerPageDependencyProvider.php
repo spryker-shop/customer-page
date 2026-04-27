@@ -240,6 +240,10 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
 
     public const string SERVICE_HTTP = 'SERVICE_HTTP';
 
+    public const string PLUGINS_OAUTH_CUSTOMER_CLIENT_STRATEGY = 'PLUGINS_OAUTH_CUSTOMER_CLIENT_STRATEGY';
+
+    public const string PLUGINS_CUSTOMER_AUTHENTICATION_LINK = 'PLUGINS_CUSTOMER_AUTHENTICATION_LINK';
+
     public function provideDependencies(Container $container): Container
     {
         $container = $this->addCustomerClient($container);
@@ -279,6 +283,8 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->addCustomerAuthenticationHandlerPlugins($container);
         $container = $this->addSessionClient($container);
         $container = $this->addHttpService($container);
+        $container = $this->addOauthCustomerClientStrategyPlugins($container);
+        $container = $this->addCustomerAuthenticationLinkPlugins($container);
 
         return $container;
     }
@@ -760,5 +766,39 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         });
 
         return $container;
+    }
+
+    protected function addOauthCustomerClientStrategyPlugins(Container $container): Container
+    {
+        $container->set(static::PLUGINS_OAUTH_CUSTOMER_CLIENT_STRATEGY, function () {
+            return $this->getOauthCustomerClientStrategyPlugins();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @return array<\SprykerShop\Yves\CustomerPageExtension\Dependency\Plugin\OauthCustomerClientStrategyPluginInterface>
+     */
+    protected function getOauthCustomerClientStrategyPlugins(): array
+    {
+        return [];
+    }
+
+    protected function addCustomerAuthenticationLinkPlugins(Container $container): Container
+    {
+        $container->set(static::PLUGINS_CUSTOMER_AUTHENTICATION_LINK, function () {
+            return $this->getCustomerAuthenticationLinkPlugins();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @return array<\SprykerShop\Yves\CustomerPageExtension\Dependency\Plugin\CustomerAuthenticationLinkPluginInterface>
+     */
+    protected function getCustomerAuthenticationLinkPlugins(): array
+    {
+        return [];
     }
 }

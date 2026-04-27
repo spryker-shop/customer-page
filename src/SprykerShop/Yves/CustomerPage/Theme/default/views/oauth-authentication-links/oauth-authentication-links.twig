@@ -1,0 +1,19 @@
+{% define data = {
+    authenticationLinks: _widget.authenticationLinks | default([])
+} %}
+
+{% if data.authenticationLinks is not empty %}
+    <div class="oauth-authentication-links spacing-top spacing-top--big">
+        <div class="text-center spacing-bottom">
+            <span class="text-secondary">{{ 'customer.login.or' | trans | default('or') }}</span>
+        </div>
+
+        {% for link in data.authenticationLinks %}
+            <div class="spacing-bottom">
+                <a href="{{ link.href }}" target="{{ link.target | default('_self') }}" class="button button--expand button--hollow">
+                    {{ link.text | trans }}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
