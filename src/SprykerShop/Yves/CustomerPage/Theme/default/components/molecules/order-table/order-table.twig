@@ -64,6 +64,7 @@
                     {% endif %}
                     <th>{{ 'customer.order.total' | trans }}</th>
                     <th>{{ 'customer.order.items_state' | trans }}</th>
+                    {% include molecule('order-table-cost-center-header', 'PurchasingControl') ignore missing only %}
                     <th>{{ 'customer.table.actions' | trans }}</th>
                 </tr>
             </thead>
@@ -99,6 +100,7 @@
                                 {% endif %}
                             {% endblock %}
                         </td>
+                        {% include molecule('order-table-cost-center-columns', 'PurchasingControl') ignore missing with { data: { order: order } } only %}
                         <td>
                             {% block actions %}
                                 <ul class="menu menu--inline">
