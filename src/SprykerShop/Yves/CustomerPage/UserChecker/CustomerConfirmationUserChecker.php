@@ -7,6 +7,7 @@
 
 namespace SprykerShop\Yves\CustomerPage\UserChecker;
 
+use SprykerShop\Yves\CustomerPage\CustomerPageConfig;
 use SprykerShop\Yves\CustomerPage\Exception\NotConfirmedAccountException;
 use SprykerShop\Yves\CustomerPage\Security\CustomerUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -18,12 +19,15 @@ class CustomerConfirmationUserChecker extends InMemoryUserChecker
      */
     protected $preAuthUserCheckPlugins;
 
+    protected CustomerPageConfig $customerPageConfig;
+
     /**
      * @param array<\SprykerShop\Yves\CustomerPageExtension\Dependency\Plugin\PreAuthUserCheckPluginInterface> $preAuthUserCheckPlugins
      */
-    public function __construct(array $preAuthUserCheckPlugins)
+    public function __construct(array $preAuthUserCheckPlugins, CustomerPageConfig $customerPageConfig)
     {
         $this->preAuthUserCheckPlugins = $preAuthUserCheckPlugins;
+        $this->customerPageConfig = $customerPageConfig;
     }
 
     /**
@@ -42,7 +46,7 @@ class CustomerConfirmationUserChecker extends InMemoryUserChecker
         parent::checkPreAuth($user);
 
         $customerTransfer = $user->getCustomerTransfer();
-        if ($customerTransfer->getRegistered() === null) {
+        if ($this->customerPageConfig->isDoubleOptInEnabled() && $customerTransfer->getRegistered() === null) {
             $ex = new NotConfirmedAccountException();
             $ex->setUser($user);
 

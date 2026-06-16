@@ -518,6 +518,7 @@ class CustomerPageFactory extends AbstractFactory
     {
         return new CustomerConfirmationUserChecker(
             $this->getPreAuthUserCheckPlugins(),
+            $this->getConfig(),
         );
     }
 
