@@ -155,10 +155,16 @@ class CustomerPageFactory extends AbstractFactory
      */
     public function createSecurityUser(CustomerTransfer $customerTransfer)
     {
+        $passwordHash = $customerTransfer->getPassword();
+
+        // Password hash must not be stored in session or propagated into quote data.
+        // The hash is preserved separately above for Symfony's authentication check only.
+        $customerTransfer->setPassword(null);
+
         return new Customer(
             $customerTransfer,
             $customerTransfer->getEmail(),
-            $customerTransfer->getPassword(),
+            $passwordHash,
             [CustomerPageSecurityPlugin::ROLE_NAME_USER],
         );
     }

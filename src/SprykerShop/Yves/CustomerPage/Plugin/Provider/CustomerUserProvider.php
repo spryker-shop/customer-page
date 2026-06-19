@@ -33,6 +33,14 @@ class CustomerUserProvider extends AbstractPlugin implements UserProviderInterfa
 
         $customerTransfer = $this->getCustomerTransfer($user);
 
+        // The session customer transfer has no password (stripped to prevent leakage into quote data).
+        // Restore it from the current security user so Symfony's password-change detection
+        // does not treat the null as a changed password and deauthenticate the session.
+        if ($customerTransfer->getPassword() === null && $user->getPassword() !== null) {
+            $customerTransfer = clone $customerTransfer;
+            $customerTransfer->setPassword($user->getPassword());
+        }
+
         return $this->getFactory()->createSecurityUser($customerTransfer);
     }
 

@@ -297,6 +297,7 @@
 
     <transfer name="Message">
         <property name="value" type="string"/>
+        <property name="message" type="string"/>
     </transfer>
 
     <transfer name="CommentThread">
@@ -397,15 +398,27 @@
     </transfer>
 
     <transfer name="ResourceOwnerRequest">
+        <property name="code" type="string"/>
+        <property name="state" type="string"/>
     </transfer>
 
     <transfer name="ResourceOwnerResponse">
+        <property name="isSuccessful" type="bool"/>
+        <property name="errorMessage" type="string"/>
+        <property name="resourceOwner" type="ResourceOwner"/>
     </transfer>
 
     <transfer name="OauthCustomerResolveRequest" strict="true">
+        <property name="resourceOwner" type="ResourceOwner"/>
     </transfer>
 
     <transfer name="OauthCustomerResolveResponse" strict="true">
+        <property name="isSuccessful" type="bool"/>
+        <property name="messages" type="Message[]" singular="message"/>
+        <property name="customer" type="Customer"/>
+    </transfer>
+
+    <transfer name="ResourceOwner">
     </transfer>
 
 </transfers>

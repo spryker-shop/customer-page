@@ -9,6 +9,7 @@ namespace SprykerShop\Yves\CustomerPage\Authenticator;
 
 use Spryker\Yves\Router\Router\ChainRouter;
 use SprykerShop\Yves\CustomerPage\Badge\MultiFactorAuthBadge;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -126,9 +127,15 @@ class CustomerLoginFormAuthenticator implements AuthenticatorInterface, Authenti
         return $this->authenticationFailureHandler->onAuthenticationFailure($request, $exception);
     }
 
-    public function start(Request $request, ?AuthenticationException $authException = null): RedirectResponse
+    public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
-        return new RedirectResponse($this->router->generate(static::ROUTE_LOGIN));
+        $loginUrl = $this->router->generate(static::ROUTE_LOGIN);
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(['redirect' => $loginUrl], Response::HTTP_UNAUTHORIZED);
+        }
+
+        return new RedirectResponse($loginUrl);
     }
 
     public function createToken(Passport $passport, string $firewallName): TokenInterface
