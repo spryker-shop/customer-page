@@ -39,6 +39,8 @@
                data-id="sidebar-order">{{ 'customer.account.order_history' | trans }}</a>
         </li>
 
+        {% widget 'RecurringOrderMenuItemWidget' args [data.activePage] only %}{% endwidget %}
+
         {% embed molecule('return-list-link', 'SalesReturnPage') ignore missing with {
             class: macros.isActive('return/list', data.activePage),
             data: {
