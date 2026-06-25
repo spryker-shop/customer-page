@@ -86,11 +86,6 @@ class CustomerPageToCustomerClientBridge implements CustomerPageToCustomerClient
         return $this->customerClient->getCustomerByEmail($customerTransfer);
     }
 
-    public function getCustomerForAuthentication(CustomerTransfer $customerTransfer): CustomerTransfer
-    {
-        return $this->customerClient->getCustomerForAuthentication($customerTransfer);
-    }
-
     /**
      * @param \Generated\Shared\Transfer\CustomerTransfer $customerTransfer
      *
