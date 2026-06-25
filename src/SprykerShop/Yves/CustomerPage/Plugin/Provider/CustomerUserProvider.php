@@ -112,7 +112,7 @@ class CustomerUserProvider extends AbstractPlugin implements UserProviderInterfa
 
         $customerTransfer = $this->getFactory()
             ->getCustomerClient()
-            ->getCustomerByEmail($customerTransfer);
+            ->getCustomerForAuthentication($customerTransfer);
 
         if ($customerTransfer->getIdCustomer() === null) {
             throw new AuthenticationException(
@@ -134,9 +134,13 @@ class CustomerUserProvider extends AbstractPlugin implements UserProviderInterfa
             $this->getUserIdentifier($user),
         );
 
+        // Strip hash before session storage to prevent leakage into Redis / quote data.
+        $customerTransferForSession = clone $customerTransfer;
+        $customerTransferForSession->setPassword(null);
+
         $this->getFactory()
             ->getCustomerClient()
-            ->setCustomer($customerTransfer);
+            ->setCustomer($customerTransferForSession);
 
         return $customerTransfer;
     }
