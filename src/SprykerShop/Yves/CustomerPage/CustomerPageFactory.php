@@ -155,18 +155,26 @@ class CustomerPageFactory extends AbstractFactory
      */
     public function createSecurityUser(CustomerTransfer $customerTransfer)
     {
-        $passwordHash = $customerTransfer->getPassword();
-
-        // Password hash must not be stored in session or propagated into quote data.
-        // The hash is preserved separately above for Symfony's authentication check only.
-        $customerTransfer->setPassword(null);
-
+        // The password hash is passed to Symfony's authentication check only; the security user
+        // carries a password-stripped transfer copy so the hash is never stored in the session
+        // or propagated into quote data.
         return new Customer(
-            $customerTransfer,
+            $this->createCustomerTransferWithoutPassword($customerTransfer),
             $customerTransfer->getEmail(),
-            $passwordHash,
+            $customerTransfer->getPassword(),
             [CustomerPageSecurityPlugin::ROLE_NAME_USER],
         );
+    }
+
+    public function createCustomerTransferWithoutPassword(CustomerTransfer $customerTransfer): CustomerTransfer
+    {
+        // The copy is built without the password key: setPassword(null) would mark the field as
+        // modified, and the explicit null would travel into the session and quote through
+        // modifiedToArray() round-trips.
+        $customerData = $customerTransfer->modifiedToArray();
+        unset($customerData[CustomerTransfer::PASSWORD]);
+
+        return (new CustomerTransfer())->fromArray($customerData, true);
     }
 
     /**

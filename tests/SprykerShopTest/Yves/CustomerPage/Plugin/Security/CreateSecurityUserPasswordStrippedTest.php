@@ -37,11 +37,12 @@ class CreateSecurityUserPasswordStrippedTest extends Unit
             ->getMock();
 
         // Act
-        $factory->createSecurityUser($customerTransfer);
+        $securityUser = $factory->createSecurityUser($customerTransfer);
 
-        // Assert – password must be stripped from the CustomerTransfer so it is not stored in session
-        // or propagated into QuoteSyncRequestTransfer.quoteTransfer.customer.password
-        $this->assertNull($customerTransfer->getPassword());
+        // Assert – the security user carries a copy without the password key: an explicit null would
+        // still count as a modified field and travel into the session and
+        // QuoteSyncRequestTransfer.quoteTransfer.customer through modifiedToArray() round-trips.
+        $this->assertArrayNotHasKey(CustomerTransfer::PASSWORD, $securityUser->getCustomerTransfer()->modifiedToArray());
     }
 
     public function testCreateSecurityUserPreservesPasswordHashInSecurityUser(): void

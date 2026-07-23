@@ -33,14 +33,6 @@ class CustomerUserProvider extends AbstractPlugin implements UserProviderInterfa
 
         $customerTransfer = $this->getCustomerTransfer($user);
 
-        // The session customer transfer has no password (stripped to prevent leakage into quote data).
-        // Restore it from the current security user so Symfony's password-change detection
-        // does not treat the null as a changed password and deauthenticate the session.
-        if ($customerTransfer->getPassword() === null && $user->getPassword() !== null) {
-            $customerTransfer = clone $customerTransfer;
-            $customerTransfer->setPassword($user->getPassword());
-        }
-
         return $this->getFactory()->createSecurityUser($customerTransfer);
     }
 
@@ -68,13 +60,14 @@ class CustomerUserProvider extends AbstractPlugin implements UserProviderInterfa
      */
     protected function getCustomerTransfer(UserInterface $user)
     {
-        if ($this->getFactory()->getCustomerClient()->isLoggedIn() === false) {
-            $customerTransfer = $this->loadCustomerByEmail(
+        $isLoggedIn = $this->getFactory()->getCustomerClient()->isLoggedIn();
+
+        if ($isLoggedIn === false) {
+            return $this->loadCustomerByEmail(
                 $this->getUserIdentifier($user),
             );
-
-            return $customerTransfer;
         }
+
         $customerTransfer = $this->getFactory()
             ->getCustomerClient()
             ->getCustomer();
@@ -112,7 +105,7 @@ class CustomerUserProvider extends AbstractPlugin implements UserProviderInterfa
 
         $customerTransfer = $this->getFactory()
             ->getCustomerClient()
-            ->getCustomerByEmail($customerTransfer);
+            ->getCustomerForAuthentication($customerTransfer);
 
         if ($customerTransfer->getIdCustomer() === null) {
             throw new AuthenticationException(
@@ -134,9 +127,13 @@ class CustomerUserProvider extends AbstractPlugin implements UserProviderInterfa
             $this->getUserIdentifier($user),
         );
 
+        $sessionData = $customerTransfer->modifiedToArray();
+        unset($sessionData[CustomerTransfer::PASSWORD]);
+        $customerTransferForSession = (new CustomerTransfer())->fromArray($sessionData, true);
+
         $this->getFactory()
             ->getCustomerClient()
-            ->setCustomer($customerTransfer);
+            ->setCustomer($customerTransferForSession);
 
         return $customerTransfer;
     }

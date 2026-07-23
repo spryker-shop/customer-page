@@ -55,6 +55,8 @@ interface CustomerPageToCustomerClientInterface
      */
     public function getCustomerByEmail(CustomerTransfer $customerTransfer);
 
+    public function getCustomerForAuthentication(CustomerTransfer $customerTransfer): CustomerTransfer;
+
     /**
      * @param \Generated\Shared\Transfer\CustomerTransfer $customerTransfer
      *
