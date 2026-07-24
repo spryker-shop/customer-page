@@ -18,7 +18,7 @@ use Spryker\Yves\Kernel\AbstractPlugin;
 class RegistrationCheckoutAuthenticationHandlerPlugin extends AbstractPlugin implements CheckoutAuthenticationHandlerPluginInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * {@inheritDoc}
      *
      * @return \Generated\Shared\Transfer\QuoteTransfer
      */
@@ -65,7 +65,7 @@ class RegistrationCheckoutAuthenticationHandlerPlugin extends AbstractPlugin imp
     }
 
     /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * {@inheritDoc}
      *
      * @return bool
      */

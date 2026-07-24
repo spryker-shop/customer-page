@@ -70,6 +70,11 @@ class CustomerPageSecurityPlugin extends AbstractPlugin implements SecurityPlugi
      */
     protected const SERVICE_ROUTER = 'routers';
 
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     */
     public function extend(SecurityBuilderInterface $securityBuilder, ContainerInterface $container): SecurityBuilderInterface
     {
         $securityBuilder = $this->addFirewalls($securityBuilder);

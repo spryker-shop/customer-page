@@ -13,7 +13,7 @@ use Spryker\Yves\Kernel\AbstractPlugin;
 class GuestCheckoutAuthenticationHandlerPlugin extends AbstractPlugin implements CheckoutAuthenticationHandlerPluginInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * {@inheritDoc}
      *
      * @return \Generated\Shared\Transfer\QuoteTransfer
      */
@@ -23,7 +23,7 @@ class GuestCheckoutAuthenticationHandlerPlugin extends AbstractPlugin implements
     }
 
     /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * {@inheritDoc}
      *
      * @return bool
      */

@@ -18,6 +18,11 @@ use SprykerShop\Yves\CustomerPage\Widget\CustomerNavigationWidget;
  */
 class CustomerNavigationWidgetPlugin extends AbstractWidgetPlugin implements CustomerNavigationWidgetPluginInterface
 {
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     */
     public function initialize(string $activePage, ?int $activeEntityId = null): void
     {
         $widget = new CustomerNavigationWidget($activePage, $activeEntityId);
@@ -28,7 +33,7 @@ class CustomerNavigationWidgetPlugin extends AbstractWidgetPlugin implements Cus
     }
 
     /**
-     * Specification:
+     * {@inheritDoc}
      * - Returns the name of the widget as it's used in templates.
      *
      * @api
@@ -41,7 +46,7 @@ class CustomerNavigationWidgetPlugin extends AbstractWidgetPlugin implements Cus
     }
 
     /**
-     * Specification:
+     * {@inheritDoc}
      * - Returns the template file path to render the widget.
      *
      * @api

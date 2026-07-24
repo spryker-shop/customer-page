@@ -237,14 +237,10 @@ class CustomerPageRouteProviderPlugin extends AbstractRouteProviderPlugin
     protected const TOKEN_PATTERN = '[a-zA-Z0-9-_\.]+';
 
     /**
-     * Specification:
+     * {@inheritDoc}
      * - Adds Routes to the RouteCollection.
      *
      * @api
-     *
-     * @param \Spryker\Yves\Router\Route\RouteCollection $routeCollection
-     *
-     * @return \Spryker\Yves\Router\Route\RouteCollection
      */
     public function addRoutes(RouteCollection $routeCollection): RouteCollection
     {
