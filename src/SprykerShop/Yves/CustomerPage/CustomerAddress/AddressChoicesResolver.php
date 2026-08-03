@@ -61,20 +61,20 @@ class AddressChoicesResolver implements AddressChoicesResolverInterface
      * @param \ArrayObject<int, \Generated\Shared\Transfer\AddressTransfer>|iterable<\Generated\Shared\Transfer\AddressTransfer> $customerAddressesCollection
      * @param array<string, string> $choices
      *
-     * @return array<string, string|int>
+     * @return iterable<string, string|int>
      */
-    protected function addCustomerAddressChoices(iterable $customerAddressesCollection, array $choices = []): array
+    protected function addCustomerAddressChoices(iterable $customerAddressesCollection, array $choices = []): iterable
     {
+        yield from $choices;
+
         foreach ($customerAddressesCollection as $addressTransfer) {
             $idCustomerAddress = $addressTransfer->getIdCustomerAddress();
             if ($idCustomerAddress === null) {
                 continue;
             }
 
-            $choices[$this->getAddressLabel($addressTransfer)] = $idCustomerAddress;
+            yield $this->getAddressLabel($addressTransfer) => $idCustomerAddress;
         }
-
-        return $choices;
     }
 
     protected function getAddressLabel(AddressTransfer $addressTransfer): string
