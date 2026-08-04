@@ -23,8 +23,6 @@ export default class AddressFormToggler extends Component {
     protected eventToggleForm: CustomEvent = new CustomEvent(EVENT_TOGGLE_FORM);
     protected readonly togglerPlaceholderValue: string = '0';
 
-    protected readyCallback(): void {}
-
     protected init(): void {
         if (!this.triggerSelector) {
             return;

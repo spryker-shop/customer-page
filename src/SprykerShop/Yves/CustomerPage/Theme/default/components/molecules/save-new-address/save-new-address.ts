@@ -14,7 +14,7 @@ export default class SaveNewAddress extends Component {
     newBillingAddressChecked = false;
     readonly hideClass: string = 'is-hidden';
 
-    protected readyCallback(): void {
+    protected init(): void {
         if (this.shippingAddressTogglerSelector && this.billingAddressTogglerSelector) {
             this.customerShippingAddresses = <HTMLFormElement>(
                 document.querySelector(this.shippingAddressTogglerSelector)

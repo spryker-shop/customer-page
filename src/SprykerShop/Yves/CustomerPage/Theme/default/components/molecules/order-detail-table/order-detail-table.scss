@@ -1,5 +1,11 @@
+@use 'sass:meta';
+
 @mixin customer-page-order-detail-table($name: '.order-detail-table') {
     #{$name} {
+        @if meta.mixin-exists(customer-page-order-detail-table-base-hook) {
+            @include customer-page-order-detail-table-base-hook;
+        }
+
         &__content {
             padding-top: 0.5rem;
             margin-bottom: 1rem;
