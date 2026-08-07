@@ -147,7 +147,7 @@ class ProfileForm extends AbstractType
                 'Dr' => 'customer.salutation.dr',
             ]),
             'label' => 'profile.form.salutation',
-            'required' => false,
+            'required' => true,
             'constraints' => [
                 $this->createNotBlankConstraint(),
             ],
