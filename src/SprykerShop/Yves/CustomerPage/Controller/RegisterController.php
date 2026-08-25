@@ -79,6 +79,7 @@ class RegisterController extends AbstractCustomerController
 
         if ($registerForm->isSubmitted() && $registerForm->isValid()) {
             $customerResponseTransfer = $this->registerCustomer($registerForm->getData());
+            $this->getFactory()->getZedRequestClient()->addFlashMessagesFromLastZedRequest();
 
             if ($customerResponseTransfer->getIsSuccess()) {
                 $route = static::ROUTE_CUSTOMER_OVERVIEW;

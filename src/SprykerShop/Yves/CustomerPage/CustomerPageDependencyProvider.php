@@ -244,6 +244,8 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
 
     public const string PLUGINS_CUSTOMER_AUTHENTICATION_LINK = 'PLUGINS_CUSTOMER_AUTHENTICATION_LINK';
 
+    public const string CLIENT_ZED_REQUEST = 'CLIENT_ZED_REQUEST';
+
     public function provideDependencies(Container $container): Container
     {
         $container = $this->addCustomerClient($container);
@@ -285,6 +287,7 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->addHttpService($container);
         $container = $this->addOauthCustomerClientStrategyPlugins($container);
         $container = $this->addCustomerAuthenticationLinkPlugins($container);
+        $container = $this->addZedRequestClient($container);
 
         return $container;
     }
@@ -800,5 +803,14 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
     protected function getCustomerAuthenticationLinkPlugins(): array
     {
         return [];
+    }
+
+    protected function addZedRequestClient(Container $container): Container
+    {
+        $container->set(static::CLIENT_ZED_REQUEST, function (Container $container) {
+            return $container->getLocator()->zedRequest()->client();
+        });
+
+        return $container;
     }
 }

@@ -104,6 +104,7 @@ class PasswordController extends AbstractCustomerController
             $customerTransfer->fromArray($form->getData());
 
             $customerResponseTransfer = $this->sendPasswordRestoreMail($customerTransfer);
+            $this->getFactory()->getZedRequestClient()->addFlashMessagesFromLastZedRequest();
             $this->processResponseErrors($customerResponseTransfer);
 
             if ($customerResponseTransfer->getIsSuccess()) {

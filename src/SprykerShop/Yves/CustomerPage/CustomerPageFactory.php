@@ -8,6 +8,7 @@
 namespace SprykerShop\Yves\CustomerPage;
 
 use Generated\Shared\Transfer\CustomerTransfer;
+use Spryker\Client\ZedRequest\ZedRequestClientInterface;
 use Spryker\Service\Http\HttpServiceInterface;
 use Spryker\Shared\Kernel\StrategyResolver;
 use Spryker\Shared\Kernel\StrategyResolverInterface;
@@ -760,5 +761,10 @@ class CustomerPageFactory extends AbstractFactory
     public function getCustomerAuthenticationLinkPlugins(): array
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::PLUGINS_CUSTOMER_AUTHENTICATION_LINK);
+    }
+
+    public function getZedRequestClient(): ZedRequestClientInterface
+    {
+        return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_ZED_REQUEST);
     }
 }
