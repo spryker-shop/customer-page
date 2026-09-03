@@ -20,29 +20,24 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RegisterController extends AbstractCustomerController
 {
-    /**
-     * @var string
-     */
-    protected const GLOSSARY_KEY_CUSTOMER_CONFIRMED = 'customer.authorization.account_confirmed';
+    protected const string GLOSSARY_KEY_CUSTOMER_CONFIRMED = 'customer.authorization.account_confirmed';
+
+    protected const string GLOSSARY_KEY_MISSING_CONFIRMATION_TOKEN = 'customer.token.invalid';
 
     /**
-     * @var string
+     * @uses \SprykerShop\Yves\CustomerPage\Controller\AccessTokenController::GLOSSARY_KEY_CUSTOMER_ALREADY_LOGGED_IN
      */
-    protected const GLOSSARY_KEY_MISSING_CONFIRMATION_TOKEN = 'customer.token.invalid';
+    protected const string GLOSSARY_KEY_CUSTOMER_ALREADY_LOGGED_IN = 'customer_page.error.customer_already_logged_in';
 
     /**
      * @uses \SprykerShop\Yves\CustomerPage\Plugin\Router\CustomerPageRouteProviderPlugin::ROUTE_CUSTOMER_OVERVIEW
-     *
-     * @var string
      */
-    protected const ROUTE_CUSTOMER_OVERVIEW = 'customer/overview';
+    protected const string ROUTE_CUSTOMER_OVERVIEW = 'customer/overview';
 
     /**
      * @uses \SprykerShop\Yves\CustomerPage\Plugin\Router\CustomerPageRouteProviderPlugin::ROUTE_LOGIN
-     *
-     * @var string
      */
-    protected const ROUTE_LOGIN = 'login';
+    protected const string ROUTE_LOGIN = 'login';
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -141,6 +136,12 @@ class RegisterController extends AbstractCustomerController
                 (string)$request->query->get(CustomerPageConfig::URL_PARAM_LOCALE),
                 ['token' => $request->query->get('token')],
             );
+        }
+
+        if ($this->isLoggedInCustomer()) {
+            $this->addErrorMessage(static::GLOSSARY_KEY_CUSTOMER_ALREADY_LOGGED_IN);
+
+            return $this->redirectResponseInternal(CustomerPageRouteProviderPlugin::ROUTE_NAME_CUSTOMER_OVERVIEW);
         }
 
         if (!$token) {
