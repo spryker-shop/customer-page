@@ -9,6 +9,7 @@ namespace SprykerShop\Yves\CustomerPage\Oauth\Authenticator;
 
 use Generated\Shared\Transfer\OauthCustomerResolveRequestTransfer;
 use Generated\Shared\Transfer\ResourceOwnerRequestTransfer;
+use SprykerShop\Yves\CustomerPage\Badge\MultiFactorAuthBadge;
 use SprykerShop\Yves\CustomerPage\CustomerPageConfig;
 use SprykerShop\Yves\CustomerPage\Dependency\Client\CustomerPageToCustomerClientInterface;
 use SprykerShop\Yves\CustomerPage\Oauth\Exception\AuthenticationStrategyNotFoundException;
@@ -25,10 +26,18 @@ use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
 
 class OauthCustomerTokenAuthenticator extends AbstractAuthenticator
 {
     protected const string ROLE_USER = 'ROLE_USER';
+
+    protected const string ACCESS_MODE_PRE_AUTH = 'ACCESS_MODE_PRE_AUTH';
+
+    /**
+     * @uses \Spryker\Shared\MultiFactorAuth\MultiFactorAuthConstants::CODE_BLOCKED
+     */
+    protected const int CODE_BLOCKED = 1;
 
     /**
      * @see \SprykerShop\Yves\CustomerPage\Oauth\Security\Handler\OauthCustomerAuthenticationSuccessHandler::REQUEST_ATTRIBUTE_CUSTOMER
@@ -49,6 +58,7 @@ class OauthCustomerTokenAuthenticator extends AbstractAuthenticator
         protected AuthenticationSuccessHandlerInterface $authenticationSuccessHandler,
         protected AuthenticationFailureHandlerInterface $authenticationFailureHandler,
         protected CustomerPageConfig $customerPageConfig,
+        protected MultiFactorAuthBadge $multiFactorAuthBadge,
     ) {
     }
 
@@ -111,6 +121,16 @@ class OauthCustomerTokenAuthenticator extends AbstractAuthenticator
                 $customerTransfer->getEmailOrFail(),
                 fn (string $email) => new Customer($customerTransfer, $email, '', [static::ROLE_USER]),
             ),
+            [$this->multiFactorAuthBadge->enable($customerTransfer)],
+        );
+    }
+
+    public function createToken(Passport $passport, string $firewallName): TokenInterface
+    {
+        return new PostAuthenticationToken(
+            $passport->getUser(),
+            $firewallName,
+            $this->isUserPreAuthenticated($passport) ? [static::ACCESS_MODE_PRE_AUTH] : $passport->getUser()->getRoles(),
         );
     }
 
@@ -122,5 +142,12 @@ class OauthCustomerTokenAuthenticator extends AbstractAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         return $this->authenticationFailureHandler->onAuthenticationFailure($request, $exception);
+    }
+
+    protected function isUserPreAuthenticated(Passport $passport): bool
+    {
+        $badge = $passport->getBadge(MultiFactorAuthBadge::class);
+
+        return $badge !== null && ($badge->getIsRequired() === true || $badge->getStatus() === static::CODE_BLOCKED);
     }
 }

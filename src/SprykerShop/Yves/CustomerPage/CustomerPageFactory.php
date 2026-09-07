@@ -722,6 +722,7 @@ class CustomerPageFactory extends AbstractFactory
             $this->createOauthCustomerAuthenticationSuccessHandler(),
             $this->createOauthCustomerAuthenticationFailureHandler(),
             $this->getConfig(),
+            $this->createMultiFactorAuthBadge(),
         );
     }
 
@@ -729,6 +730,8 @@ class CustomerPageFactory extends AbstractFactory
     {
         return new OauthCustomerAuthenticationSuccessHandler(
             $this->getCustomerClient(),
+            $this->getSessionClient(),
+            $this->getRouter(),
         );
     }
 
