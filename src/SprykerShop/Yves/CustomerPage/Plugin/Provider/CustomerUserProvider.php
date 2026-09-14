@@ -20,12 +20,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class CustomerUserProvider extends AbstractPlugin implements UserProviderInterface
 {
-    /**
-     * @param \Symfony\Component\Security\Core\User\UserInterface $user
-     *
-     * @return \Symfony\Component\Security\Core\User\UserInterface
-     */
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): UserInterface
     {
         if (!$user instanceof Customer) {
             return $user;
@@ -81,12 +76,7 @@ class CustomerUserProvider extends AbstractPlugin implements UserProviderInterfa
         return $customerTransfer;
     }
 
-    /**
-     * @param string $class
-     *
-     * @return bool
-     */
-    public function supportsClass($class)
+    public function supportsClass(string $class): bool
     {
         return is_a($class, Customer::class, true);
     }

@@ -99,8 +99,13 @@ class Customer implements CustomerUserInterface, PasswordAuthenticatedUserInterf
         return $this->password;
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function getUserIdentifier(): string
     {
+        assert($this->username !== '');
+
         return $this->username;
     }
 

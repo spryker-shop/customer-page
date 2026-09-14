@@ -161,8 +161,8 @@ class GuestForm extends AbstractType
         $builder->add(static::FIELD_EMAIL, EmailType::class, [
             'label' => 'auth.email',
             'constraints' => [
-                new Callback([
-                    'callback' => function ($email, ExecutionContextInterface $context) {
+                new Callback(
+                    callback: function ($email, ExecutionContextInterface $context) {
                         if (!$email) {
                             $context->addViolation(static::VALIDATION_NOT_BLANK_MESSAGE);
 
@@ -176,7 +176,7 @@ class GuestForm extends AbstractType
                             $context->buildViolation('customer.email.format.invalid')->addViolation();
                         }
                     },
-                ]),
+                ),
             ],
         ]);
 
