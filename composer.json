@@ -77,7 +77,8 @@
     },
     "autoload": {
         "psr-4": {
-            "SprykerShop\\": "src/SprykerShop/"
+            "SprykerShop\\": "src/SprykerShop/",
+            "SprykerShopTest\\Yves\\CustomerPage\\Fixtures\\": "tests/SprykerShopTest/Yves/CustomerPage/_support/Fixtures/"
         }
     },
     "autoload-dev": {
