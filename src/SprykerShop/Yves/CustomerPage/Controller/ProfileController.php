@@ -7,6 +7,7 @@
 
 namespace SprykerShop\Yves\CustomerPage\Controller;
 
+use ArrayObject;
 use Generated\Shared\Transfer\CustomerTransfer;
 use SprykerShop\Yves\CustomerPage\Plugin\Router\CustomerPageRouteProviderPlugin;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,8 @@ class ProfileController extends AbstractCustomerController
      * @var string
      */
     public const MESSAGE_PASSWORD_CHANGE_SUCCESS = 'customer.password.change.success';
+
+    protected const string MESSAGE_EMAIL_CHANGE_MAIL_SENT = 'customer.change_customer_email_mail_sent';
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -101,16 +104,7 @@ class ProfileController extends AbstractCustomerController
         if ($customerResponseTransfer->getIsSuccess()) {
             $this->updateLoggedInCustomerTransfer($customerResponseTransfer->getCustomerTransfer());
 
-            $hasEmailChangeMessage = false;
-
-            if ($customerResponseTransfer->getMessages()->offsetExists(0) === true) {
-                foreach ($customerResponseTransfer->getMessages() as $messageTransfer) {
-                    if ($messageTransfer->getValue() === 'customer.change_customer_email_mail_sent') {
-                        $hasEmailChangeMessage = true;
-                    }
-                    $this->addSuccessMessage($messageTransfer->getValue());
-                }
-            }
+            $hasEmailChangeMessage = $this->addProfileUpdateMessages($customerResponseTransfer->getMessages());
 
             if (!$hasEmailChangeMessage) {
                 $this->addSuccessMessage(static::MESSAGE_PROFILE_CHANGE_SUCCESS);
@@ -122,6 +116,32 @@ class ProfileController extends AbstractCustomerController
         $this->processResponseErrors($customerResponseTransfer);
 
         return false;
+    }
+
+    /**
+     * @param \ArrayObject<int, \Generated\Shared\Transfer\MessageTransfer> $messageTransfers
+     *
+     * @return bool
+     */
+    protected function addProfileUpdateMessages(ArrayObject $messageTransfers): bool
+    {
+        $hasEmailChangeMessage = false;
+
+        foreach ($messageTransfers as $messageTransfer) {
+            $message = $messageTransfer->getValue();
+
+            if (!$message) {
+                continue;
+            }
+
+            if ($message === static::MESSAGE_EMAIL_CHANGE_MAIL_SENT) {
+                $hasEmailChangeMessage = true;
+            }
+
+            $this->addSuccessMessage($message);
+        }
+
+        return $hasEmailChangeMessage;
     }
 
     /**
