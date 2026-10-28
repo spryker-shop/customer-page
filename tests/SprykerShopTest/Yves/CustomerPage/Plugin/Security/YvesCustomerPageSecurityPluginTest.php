@@ -37,6 +37,8 @@ class YvesCustomerPageSecurityPluginTest extends Unit
      */
     protected const SERVICE_LOCALE = 'locale';
 
+    protected const string LOGIN_FORM_NAME = 'loginForm';
+
     /**
      * @var \SprykerShopTest\Yves\CustomerPage\CustomerPageTester
      */
@@ -90,14 +92,49 @@ class YvesCustomerPageSecurityPluginTest extends Unit
 
         $container->get('session')->start();
         $container->set(CustomerPageDependencyProvider::SERVICE_LOCALE, 'en_US');
+        $csrfToken = $this->tester->addFormCsrfProvider()->getToken(static::LOGIN_FORM_NAME)->getValue();
 
         // Act
         $httpKernelBrowser = $this->tester->getHttpKernelBrowser();
-        $httpKernelBrowser->request('post', '/login_check', ['loginForm' => ['email' => $customerTransfer->getEmail(), 'password' => 'foo']]);
+        $httpKernelBrowser->request('post', '/login_check', ['loginForm' => ['email' => $customerTransfer->getEmail(), 'password' => 'foo', '_token' => $csrfToken]]);
         $httpKernelBrowser->request('get', '/');
 
         // Assert
         $this->assertSame('authenticated', $httpKernelBrowser->getResponse()->getContent());
+    }
+
+    /**
+     * @dataProvider invalidCsrfTokenDataProvider
+     *
+     * @param array<string, string> $csrfTokenField
+     *
+     * @return void
+     */
+    public function testCustomerWithValidCredentialsAndInvalidCsrfTokenCanNotLogin(array $csrfTokenField): void
+    {
+        // Arrange
+        $customerTransfer = $this->haveLoginReadyCustomer();
+        $this->tester->addFormCsrfProvider();
+
+        // Act
+        $httpKernelBrowser = $this->tester->getHttpKernelBrowser();
+        $httpKernelBrowser->request('post', '/login_check', ['loginForm' => ['email' => $customerTransfer->getEmail(), 'password' => 'foo'] + $csrfTokenField]);
+        $httpKernelBrowser->request('get', '/');
+
+        // Assert
+        $this->assertSame('unauthorized', $httpKernelBrowser->getResponse()->getContent());
+    }
+
+    /**
+     * @return array<string, array<array<string, string>>>
+     */
+    public function invalidCsrfTokenDataProvider(): array
+    {
+        return [
+            'missing token' => [[]],
+            'empty token' => [['_token' => '']],
+            'invalid token' => [['_token' => 'invalid-token']],
+        ];
     }
 
     public function testCustomerAccessDenied(): void
@@ -122,5 +159,22 @@ class YvesCustomerPageSecurityPluginTest extends Unit
 
         // Assert
         $this->assertSame('unauthorized', $httpKernelBrowser->getResponse()->getContent());
+    }
+
+    protected function haveLoginReadyCustomer(): CustomerTransfer
+    {
+        $container = $this->tester->getContainer();
+        $customerTransfer = $this->tester->haveCustomer(['password' => 'foo', CustomerTransfer::REGISTERED => new DateTime()]);
+
+        $securityPlugin = new YvesCustomerPageSecurityPlugin();
+        $securityPlugin->setFactory($this->tester->getFactory());
+        $this->tester->addSecurityPlugin($securityPlugin);
+        $this->tester->mockSecurityDependencies();
+        $this->tester->enableSecurityApplicationPlugin();
+
+        $container->get('session')->start();
+        $container->set(CustomerPageDependencyProvider::SERVICE_LOCALE, 'en_US');
+
+        return $customerTransfer;
     }
 }

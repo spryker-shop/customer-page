@@ -19,6 +19,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
@@ -57,6 +58,8 @@ class CustomerLoginFormAuthenticator implements AuthenticatorInterface, Authenti
      */
     protected const PARAMETER_PASSWORD = 'password';
 
+    protected const string PARAMETER_CSRF_TOKEN = '_token';
+
     /**
      * @uses \SprykerShop\Yves\CustomerPage\Plugin\Router\CustomerPageRouteProviderPlugin::ROUTE_LOGIN
      *
@@ -93,7 +96,7 @@ class CustomerLoginFormAuthenticator implements AuthenticatorInterface, Authenti
         /** @var \SprykerShop\Yves\CustomerPage\Security\CustomerUserInterface $user */
         $user = $this->userProvider->loadUserByIdentifier($data[static::PARAMETER_EMAIL]);
 
-        $badges = [];
+        $badges = [new CsrfTokenBadge(static::PARAMETER_LOGIN_FORM, $data[static::PARAMETER_CSRF_TOKEN] ?? null)];
         if (isset($data[static::PARAMETER_REMEMBER_ME])) {
             $badges[] = $this->rememberMeBadge->enable();
         }
