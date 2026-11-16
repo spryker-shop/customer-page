@@ -264,19 +264,5 @@
         "rule": "ExternalMethodExtensionReturnTypeRule",
         "ruleset": "Spryker",
         "priority": "1"
-    },
-    {
-        "fileName": "src/SprykerShop/Yves/CustomerPage/Plugin/Provider/CustomerUserProvider.php",
-        "description": "Method `SprykerShop\\Yves\\CustomerPage\\Plugin\\Provider\\CustomerUserProvider::refreshUser()` must have return type.",
-        "rule": "ExternalMethodExtensionReturnTypeRule",
-        "ruleset": "Spryker",
-        "priority": "1"
-    },
-    {
-        "fileName": "src/SprykerShop/Yves/CustomerPage/Plugin/Provider/CustomerUserProvider.php",
-        "description": "Method `SprykerShop\\Yves\\CustomerPage\\Plugin\\Provider\\CustomerUserProvider::supportsClass()` must have return type.",
-        "rule": "ExternalMethodExtensionReturnTypeRule",
-        "ruleset": "Spryker",
-        "priority": "1"
     }
 ]

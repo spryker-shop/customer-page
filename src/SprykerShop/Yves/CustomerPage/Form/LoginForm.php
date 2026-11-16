@@ -76,6 +76,8 @@ class LoginForm extends AbstractType
         if ($this->getConfig()->isRememberMeEnabled()) {
             $this->addRememberMeField($builder);
         }
+
+        $this->executeCustomerLoginFormExpanderPlugins($builder, $options);
     }
 
     /**
@@ -128,6 +130,18 @@ class LoginForm extends AbstractType
         ]);
 
         return $this;
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     */
+    protected function executeCustomerLoginFormExpanderPlugins(FormBuilderInterface $builder, array $options): FormBuilderInterface
+    {
+        foreach ($this->getFactory()->getCustomerLoginFormExpanderPlugins() as $customerLoginFormExpanderPlugin) {
+            $builder = $customerLoginFormExpanderPlugin->expand($builder, $options);
+        }
+
+        return $builder;
     }
 
     protected function createNotBlankConstraint(): NotBlank

@@ -246,6 +246,8 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
 
     public const string CLIENT_ZED_REQUEST = 'CLIENT_ZED_REQUEST';
 
+    public const string PLUGINS_CUSTOMER_LOGIN_FORM_EXPANDER = 'PLUGINS_CUSTOMER_LOGIN_FORM_EXPANDER';
+
     public function provideDependencies(Container $container): Container
     {
         $container = $this->addCustomerClient($container);
@@ -288,6 +290,7 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->addOauthCustomerClientStrategyPlugins($container);
         $container = $this->addCustomerAuthenticationLinkPlugins($container);
         $container = $this->addZedRequestClient($container);
+        $container = $this->addCustomerLoginFormExpanderPlugins($container);
 
         return $container;
     }
@@ -812,5 +815,22 @@ class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
         });
 
         return $container;
+    }
+
+    protected function addCustomerLoginFormExpanderPlugins(Container $container): Container
+    {
+        $container->set(static::PLUGINS_CUSTOMER_LOGIN_FORM_EXPANDER, function () {
+            return $this->getCustomerLoginFormExpanderPlugins();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @return list<\SprykerShop\Yves\CustomerPageExtension\Dependency\Plugin\CustomerLoginFormExpanderPluginInterface>
+     */
+    protected function getCustomerLoginFormExpanderPlugins(): array
+    {
+        return [];
     }
 }

@@ -770,4 +770,12 @@ class CustomerPageFactory extends AbstractFactory
     {
         return $this->getProvidedDependency(CustomerPageDependencyProvider::CLIENT_ZED_REQUEST);
     }
+
+    /**
+     * @return list<\SprykerShop\Yves\CustomerPageExtension\Dependency\Plugin\CustomerLoginFormExpanderPluginInterface>
+     */
+    public function getCustomerLoginFormExpanderPlugins(): array
+    {
+        return $this->getProvidedDependency(CustomerPageDependencyProvider::PLUGINS_CUSTOMER_LOGIN_FORM_EXPANDER);
+    }
 }

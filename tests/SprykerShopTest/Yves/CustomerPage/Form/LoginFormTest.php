@@ -9,9 +9,16 @@ namespace SprykerShopTest\Yves\CustomerPage\Form;
 
 use Codeception\Test\Unit;
 use SprykerShop\Yves\CustomerPage\CustomerPageConfig;
+use SprykerShop\Yves\CustomerPage\CustomerPageDependencyProvider;
 use SprykerShop\Yves\CustomerPage\Form\LoginForm;
+use SprykerShop\Yves\CustomerPageExtension\Dependency\Plugin\CustomerLoginFormExpanderPluginInterface;
 use SprykerShopTest\Yves\CustomerPage\CustomerPageTester;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Forms;
+use Symfony\Component\Validator\Validation;
 
 /**
  * @group SprykerShopTest
@@ -22,9 +29,8 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class LoginFormTest extends Unit
 {
-    /**
-     * @var \SprykerShopTest\Yves\CustomerPage\CustomerPageTester
-     */
+    protected const string FIELD_CAPTCHA = 'captcha';
+
     protected CustomerPageTester $tester;
 
     /**
@@ -88,9 +94,64 @@ class LoginFormTest extends Unit
         $this->loginForm->buildForm($this->builderMock, []);
     }
 
+    public function testBuildFormAddsFieldOfCustomerLoginFormExpanderPluginAfterRememberMeField(): void
+    {
+        // Arrange
+        $this->tester->setDependency(CustomerPageDependencyProvider::PLUGINS_CUSTOMER_LOGIN_FORM_EXPANDER, [
+            $this->createCaptchaFieldExpanderPlugin(),
+        ]);
+
+        // Act
+        $form = $this->createLoginForm();
+
+        // Assert
+        $this->assertSame(
+            [LoginForm::FIELD_EMAIL, LoginForm::FIELD_PASSWORD, LoginForm::FIELD_REMEMBER_ME, static::FIELD_CAPTCHA],
+            array_keys($form->all()),
+        );
+    }
+
+    public function testBuildFormKeepsLoginFieldsWhenNoCustomerLoginFormExpanderPluginIsRegistered(): void
+    {
+        // Act
+        $form = $this->createLoginForm();
+
+        // Assert
+        $this->assertSame(
+            [LoginForm::FIELD_EMAIL, LoginForm::FIELD_PASSWORD, LoginForm::FIELD_REMEMBER_ME],
+            array_keys($form->all()),
+        );
+    }
+
     /**
-     * @param bool $isRememberMeEnabled
-     *
+     * @return \Symfony\Component\Form\FormInterface<mixed>
+     */
+    protected function createLoginForm(): FormInterface
+    {
+        $loginForm = new LoginForm();
+        $loginForm->setFactory($this->tester->getFactory());
+        $loginForm->setConfig($this->getConfigMock(true));
+
+        return Forms::createFormFactoryBuilder()
+            ->addExtension(new ValidatorExtension(Validation::createValidator()))
+            ->addType($loginForm)
+            ->getFormFactory()
+            ->create(LoginForm::class);
+    }
+
+    protected function createCaptchaFieldExpanderPlugin(): CustomerLoginFormExpanderPluginInterface
+    {
+        $customerLoginFormExpanderPluginMock = $this->createMock(CustomerLoginFormExpanderPluginInterface::class);
+        $customerLoginFormExpanderPluginMock->expects($this->once())
+            ->method('expand')
+            ->willReturnCallback(function (FormBuilderInterface $builder): FormBuilderInterface {
+                return $builder->add(static::FIELD_CAPTCHA, TextType::class);
+            });
+
+        return $customerLoginFormExpanderPluginMock;
+    }
+
+    /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\SprykerShop\Yves\CustomerPage\CustomerPageConfig
      */
     protected function getConfigMock(bool $isRememberMeEnabled = false): CustomerPageConfig
