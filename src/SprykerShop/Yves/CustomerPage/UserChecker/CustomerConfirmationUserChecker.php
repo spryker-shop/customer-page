@@ -47,10 +47,10 @@ class CustomerConfirmationUserChecker extends InMemoryUserChecker
 
         $customerTransfer = $user->getCustomerTransfer();
         if ($this->customerPageConfig->isDoubleOptInEnabled() && $customerTransfer->getRegistered() === null) {
-            $ex = new NotConfirmedAccountException();
-            $ex->setUser($user);
+            $exception = new NotConfirmedAccountException();
+            $exception->setUser($user);
 
-            throw $ex;
+            throw $exception;
         }
 
         $this->executePreAuthUserCheckPlugins($user);
