@@ -240,48 +240,16 @@ class CheckoutAddressCollectionForm extends AbstractType
         FormEvent $event,
         CustomerPageToShipmentServiceInterface $shipmentService
     ): void {
-        $quoteTransfer = $event->getData();
-
-        if (!($quoteTransfer instanceof QuoteTransfer)) {
-            return;
-        }
-
-        $quoteTransfer = $this->executeCheckoutAddressStepPreGroupItemsByShipmentPlugins($quoteTransfer);
-
-        $shipmentGroupCollection = $this->mergeShipmentGroupsByShipmentHash(
-            $shipmentService->groupItemsByShipment($quoteTransfer->getItems()),
-            $shipmentService->groupItemsByShipment($quoteTransfer->getBundleItems()),
-        );
-
-        $shippingAddressForm = $event->getForm()->get(static::FIELD_SHIPPING_ADDRESS);
-
-        if (count($shipmentGroupCollection) > 1) {
-            $this->setDeliverToMultipleAddressesEnabled($shippingAddressForm);
-
-            return;
-        }
-
-        if ($this->isDeliverToMultipleAddressesEnabled($shippingAddressForm) || $shipmentGroupCollection->count() < 1) {
-            return;
-        }
-
-        $shipmentGroupTransfer = $shipmentGroupCollection->getIterator()->current();
-
-        if (!$shipmentGroupTransfer->getShipment() || !$shipmentGroupTransfer->getShipment()->getShippingAddress()) {
-            return;
-        }
-
-        $shippingAddressForm->setData(clone $shipmentGroupTransfer->getShipment()->getShippingAddress());
+        $this->getFactory()
+            ->createShippingAddressFormHydrator()
+            ->hydrateShippingAddressSubForm($event, $shipmentService);
     }
 
     protected function executeCheckoutAddressStepPreGroupItemsByShipmentPlugins(QuoteTransfer $quoteTransfer): QuoteTransfer
     {
-        $checkoutAddressStepPreGroupItemsByShipmentPlugins = $this->getFactory()->getCheckoutAddressStepPreGroupItemsByShipmentPlugins();
-        foreach ($checkoutAddressStepPreGroupItemsByShipmentPlugins as $checkoutAddressStepPreGroupItemsByShipmentPlugin) {
-            $quoteTransfer = $checkoutAddressStepPreGroupItemsByShipmentPlugin->preGroupItemsByShipment($quoteTransfer);
-        }
-
-        return $quoteTransfer;
+        return $this->getFactory()
+            ->createShippingAddressFormHydrator()
+            ->executeCheckoutAddressStepPreGroupItemsByShipmentPlugins($quoteTransfer);
     }
 
     /**
@@ -294,17 +262,9 @@ class CheckoutAddressCollectionForm extends AbstractType
         ArrayObject $shipmentGroupCollection,
         ArrayObject $bundleItemsShipmentGroupCollection
     ): ArrayObject {
-        $indexedShipmentGroups = [];
-
-        foreach ($shipmentGroupCollection as $shipmentGroupTransfer) {
-            $indexedShipmentGroups[$shipmentGroupTransfer->getHash()] = $shipmentGroupTransfer;
-        }
-
-        foreach ($bundleItemsShipmentGroupCollection as $shipmentGroupTransfer) {
-            $indexedShipmentGroups[$shipmentGroupTransfer->getHash()] = $shipmentGroupTransfer;
-        }
-
-        return new ArrayObject($indexedShipmentGroups);
+        return $this->getFactory()
+            ->createShippingAddressFormHydrator()
+            ->mergeShipmentGroupsByShipmentHash($shipmentGroupCollection, $bundleItemsShipmentGroupCollection);
     }
 
     /**
@@ -368,36 +328,21 @@ class CheckoutAddressCollectionForm extends AbstractType
             ->getIterator()
             ->current();
 
-        if ($itemTransfer !== null && $itemTransfer->getShipment()) {
-            return $itemTransfer->getShipment();
-        }
-
-        return new ShipmentTransfer();
+        return $itemTransfer?->getShipment() ?: new ShipmentTransfer();
     }
 
     protected function setDeliverToMultipleAddressesEnabled(FormInterface $form): FormInterface
     {
-        if (!$form->has(CheckoutAddressForm::FIELD_ID_CUSTOMER_ADDRESS)) {
-            return $form;
-        }
-
-        $selectedDeliverToMultiShipmentAddressTransfer = (new AddressTransfer())
-            ->setIdCustomerAddress((int)CheckoutAddressForm::VALUE_DELIVER_TO_MULTIPLE_ADDRESSES);
-
-        $form->setData($selectedDeliverToMultiShipmentAddressTransfer);
-
-        return $form;
+        return $this->getFactory()
+            ->createShippingAddressFormHydrator()
+            ->setDeliverToMultipleAddressesEnabled($form);
     }
 
     protected function isDeliverToMultipleAddressesEnabled(FormInterface $form): bool
     {
-        if (!$form->has(CheckoutAddressForm::FIELD_ID_CUSTOMER_ADDRESS)) {
-            return false;
-        }
-
-        $idCustomerAddress = $form->get(CheckoutAddressForm::FIELD_ID_CUSTOMER_ADDRESS)->getViewData();
-
-        return $idCustomerAddress === CheckoutAddressForm::VALUE_DELIVER_TO_MULTIPLE_ADDRESSES;
+        return $this->getFactory()
+            ->createShippingAddressFormHydrator()
+            ->isDeliverToMultipleAddressesEnabled($form);
     }
 
     /**
@@ -416,9 +361,7 @@ class CheckoutAddressCollectionForm extends AbstractType
                     $this->createBillingSameAsShippingConstraint(),
                 ],
                 'validation_groups' => function (FormInterface $form) {
-                    $shippingAddressForm = $form->getParent()
-                        ? $form->getParent()->get(static::FIELD_SHIPPING_ADDRESS)
-                        : null;
+                    $shippingAddressForm = $form->getParent()?->get(static::FIELD_SHIPPING_ADDRESS);
 
                     if (!$shippingAddressForm) {
                         return false;

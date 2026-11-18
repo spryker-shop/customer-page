@@ -228,12 +228,8 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
     {
         $shippingAddressTransfer = $quoteTransfer->getShippingAddress();
 
-        if ($shippingAddressTransfer === null) {
-            return false;
-        }
-
-        return $shippingAddressTransfer->getIdCustomerAddress() !== null
-            || $shippingAddressTransfer->getIdCompanyUnitAddress() !== null;
+        return $shippingAddressTransfer?->getIdCustomerAddress() !== null
+            || $shippingAddressTransfer?->getIdCompanyUnitAddress() !== null;
     }
 
     protected function getBillingAddress(QuoteTransfer $quoteTransfer): AddressTransfer
@@ -265,10 +261,7 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
 
     protected function getItemShipment(ItemTransfer $itemTransfer, ?ShipmentTransfer $previouslySelectedShipmentMethod): ShipmentTransfer
     {
-        $shipmentTransfer = $itemTransfer->getShipment();
-        if ($shipmentTransfer === null) {
-            $shipmentTransfer = new ShipmentTransfer();
-        }
+        $shipmentTransfer = $itemTransfer->getShipment() ?? new ShipmentTransfer();
 
         $shipmentShippingAddress = $this->getShipmentShippingAddress($shipmentTransfer);
         if ($previouslySelectedShipmentMethod !== null && !$this->isShippingAddressDefined($shipmentShippingAddress)) {
@@ -282,12 +275,12 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
 
     protected function getShipmentShippingAddress(ShipmentTransfer $shipmentTransfer): AddressTransfer
     {
-        $addressTransfer = new AddressTransfer();
         if ($shipmentTransfer->getShippingAddress() !== null) {
-            $addressTransfer = $shipmentTransfer->getShippingAddress();
+            return $shipmentTransfer->getShippingAddress();
         }
 
-        if ($this->customerTransfer !== null && $shipmentTransfer->getShippingAddress() === null) {
+        $addressTransfer = new AddressTransfer();
+        if ($this->customerTransfer !== null) {
             $addressTransfer->setIdCustomerAddress($this->customerTransfer->getDefaultShippingAddress());
         }
 
@@ -298,9 +291,7 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
     {
         $previouslySelectedShipmentMethod = $this->resolveShipmentForSingleAddressDelivery($quoteTransfer);
 
-        foreach ($quoteTransfer->getItems() as $itemTransfer) {
-            $this->addShippingAddressToItemTransfer($itemTransfer, $previouslySelectedShipmentMethod);
-        }
+        $this->addShippingAddressToItemTransfers($quoteTransfer->getItems(), $previouslySelectedShipmentMethod);
 
         return $quoteTransfer;
     }
@@ -309,17 +300,28 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
     {
         $previouslySelectedShipmentMethod = $this->resolveShipmentForSingleAddressDelivery($quoteTransfer);
 
-        foreach ($quoteTransfer->getBundleItems() as $itemTransfer) {
-            $this->addShippingAddressToItemTransfer($itemTransfer, $previouslySelectedShipmentMethod);
-        }
+        $this->addShippingAddressToItemTransfers($quoteTransfer->getBundleItems(), $previouslySelectedShipmentMethod);
 
         return $quoteTransfer;
+    }
+
+    /**
+     * @param iterable<\Generated\Shared\Transfer\ItemTransfer> $itemTransfers
+     * @param \Generated\Shared\Transfer\ShipmentTransfer|null $previouslySelectedShipmentMethod
+     *
+     * @return void
+     */
+    protected function addShippingAddressToItemTransfers(iterable $itemTransfers, ?ShipmentTransfer $previouslySelectedShipmentMethod): void
+    {
+        foreach ($itemTransfers as $itemTransfer) {
+            $this->addShippingAddressToItemTransfer($itemTransfer, $previouslySelectedShipmentMethod);
+        }
     }
 
     protected function addShippingAddressToItemTransfer(ItemTransfer $itemTransfer, ?ShipmentTransfer $previouslySelectedShipmentMethod): ItemTransfer
     {
         $shipmentTransfer = $itemTransfer->getShipment();
-        if ($shipmentTransfer === null || $shipmentTransfer->getShippingAddress() === null) {
+        if ($shipmentTransfer?->getShippingAddress() === null) {
             $itemTransfer->setShipment($this->getItemShipment($itemTransfer, $previouslySelectedShipmentMethod));
 
             return $itemTransfer;
@@ -369,12 +371,7 @@ class CheckoutAddressFormDataProvider extends AbstractAddressFormDataProvider im
     protected function hasQuoteGiftCardItems(QuoteTransfer $quoteTransfer): bool
     {
         foreach ($quoteTransfer->getItems() as $itemTransfer) {
-            $giftCardMetadataTransfer = $itemTransfer->getGiftCardMetadata();
-            if ($giftCardMetadataTransfer === null) {
-                continue;
-            }
-
-            if ($giftCardMetadataTransfer->getIsGiftCard()) {
+            if ($itemTransfer->getGiftCardMetadata()?->getIsGiftCard()) {
                 return true;
             }
         }

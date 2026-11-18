@@ -50,6 +50,8 @@ use SprykerShop\Yves\CustomerPage\Expander\ShipmentGroupExpanderInterface;
 use SprykerShop\Yves\CustomerPage\Form\Cloner\FormCloner;
 use SprykerShop\Yves\CustomerPage\Form\DataProvider\CheckoutAddressFormDataProvider;
 use SprykerShop\Yves\CustomerPage\Form\FormFactory;
+use SprykerShop\Yves\CustomerPage\Form\Hydrator\ShippingAddressFormHydrator;
+use SprykerShop\Yves\CustomerPage\Form\Hydrator\ShippingAddressFormHydratorInterface;
 use SprykerShop\Yves\CustomerPage\Form\Transformer\AddressSelectTransformer;
 use SprykerShop\Yves\CustomerPage\Formatter\LoginCheckUrlFormatter;
 use SprykerShop\Yves\CustomerPage\Formatter\LoginCheckUrlFormatterInterface;
@@ -102,6 +104,7 @@ use Twig\TwigFunction;
 
 /**
  * @method \SprykerShop\Yves\CustomerPage\CustomerPageConfig getConfig()
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class CustomerPageFactory extends AbstractFactory
 {
@@ -478,6 +481,11 @@ class CustomerPageFactory extends AbstractFactory
     public function createShipmentExpander(): ShipmentExpanderInterface
     {
         return new ShipmentExpander();
+    }
+
+    public function createShippingAddressFormHydrator(): ShippingAddressFormHydratorInterface
+    {
+        return new ShippingAddressFormHydrator($this->getCheckoutAddressStepPreGroupItemsByShipmentPlugins());
     }
 
     public function createAddressChoicesResolver(): AddressChoicesResolverInterface

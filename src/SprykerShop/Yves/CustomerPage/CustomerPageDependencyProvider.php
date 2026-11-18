@@ -31,6 +31,7 @@ use SprykerShop\Yves\CustomerPage\Plugin\RegistrationCheckoutAuthenticationHandl
 
 /**
  * @method \SprykerShop\Yves\CustomerPage\CustomerPageConfig getConfig()
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class CustomerPageDependencyProvider extends AbstractBundleDependencyProvider
 {

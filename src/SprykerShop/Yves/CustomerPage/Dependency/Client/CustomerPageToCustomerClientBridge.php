@@ -13,6 +13,9 @@ use Generated\Shared\Transfer\CustomerTransfer;
 use Generated\Shared\Transfer\OauthCustomerResolveRequestTransfer;
 use Generated\Shared\Transfer\OauthCustomerResolveResponseTransfer;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class CustomerPageToCustomerClientBridge implements CustomerPageToCustomerClientInterface
 {
     /**
