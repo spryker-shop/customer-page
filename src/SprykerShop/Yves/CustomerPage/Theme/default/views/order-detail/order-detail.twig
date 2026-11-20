@@ -95,3 +95,57 @@
         {% endwidget %}
     {% endblock %}
 {% endblock %}
+
+{% block eventTracker %}
+    {# Reordering adds the ordered items to the cart: the selected ones, or all items of the order. #}
+    {# The reordered items carry the prices of the order, so the events use the order's currency, not the one the customer browses in. #}
+    {% set events = {
+        list: events.list | merge([
+            {
+                event: 'ADD_TO_CART',
+                name: 'click',
+                triggers: [
+                    {
+                        selector: '.js-cart-reorder-form__trigger',
+                        data: {
+                            reorderForm: {
+                                selector: 'form',
+                                closest: true,
+                                flatten: true,
+                                composed: {
+                                    products: {
+                                        multi: true,
+                                        selector: '[tracking-details]:has(.js-cart-reorder-form__selection:checked)',
+                                        attribute: 'tracking-details',
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    {
+                        selector: '.js-cart-reorder-all',
+                        data: {
+                            orderPage: {
+                                selector: 'body',
+                                closest: true,
+                                flatten: true,
+                                composed: {
+                                    products: {
+                                        multi: true,
+                                        selector: '.order-detail-table__item[tracking-details]',
+                                        attribute: 'tracking-details',
+                                    },
+                                },
+                            },
+                        },
+                    },
+                ],
+            },
+        ]),
+        data: events.data | merge({
+            currency: data.order.currencyIsoCode | default(events.data.currency),
+        }),
+    } %}
+
+    {{ parent() }}
+{% endblock %}

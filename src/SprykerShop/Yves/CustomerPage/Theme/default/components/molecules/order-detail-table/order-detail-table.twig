@@ -16,6 +16,10 @@
 } %}
 
 {% block body %}
+    {# Looked up once for the whole order. The selected attributes of an ordered item come with the order;
+       the ProductTrackingDetailsWidget below adds the abstract product name, brand and categories of the tracked items. #}
+    {% set isUserActionTrackingEnabled = findWidget('TraceableEventWidget').parameters.isUserActionTrackingEnabled ?? false %}
+    {% set trackedItems = [] %}
     {% for shipmentGroup in data.shipmentGroups %}
         <h4>{{ 'customer.order.shipment' | trans }} n&#176;{{ loop.index }}</h4>
         {% widget 'MerchantOrderReferenceForItemsWidget' args [shipmentGroup.items] only %}{% endwidget %}
@@ -27,7 +31,21 @@
                     {% set isConfiguredBundle = concreteItem.salesOrderConfiguredBundleItem is defined and concreteItem.salesOrderConfiguredBundleItem is not empty %}
 
                     {% if not isConfiguredBundle %}
-                        <div class="{{ config.name }}__item grid grid--justify">
+                        {# The ordered item as a reorder adds it to the cart, for the traceable events; the price is the one of the order. #}
+                        {% set trackingDetails = null %}
+                        {% if isUserActionTrackingEnabled %}
+                            {% set trackedItems = trackedItems | merge([concreteItem]) %}
+                            {% set trackingDetails %}{% include model('tracking-details') ignore missing with { product: {
+                                sku: concreteItem.sku,
+                                abstractSku: concreteItem.abstractSku | default(null),
+                                name: concreteItem.name,
+                                variant: concreteItem.selectedVariantAttributes | default([]) | reduce((values, value) => values | merge([value]), []),
+                                price: concreteItem.unitPrice,
+                                quantity: concreteItem.quantity,
+                            } } only %}{% endset %}
+                        {% endif %}
+
+                        <div class="{{ config.name }}__item grid grid--justify"{% if trackingDetails %} tracking-details="{{ trackingDetails }}"{% endif %}>
                             <div class="col col--middle col--sm-1 spacing">
                                 {% if data.order is not empty %}
                                     {% if widgetGlobalExists('CartReorderItemCheckboxWidget') %}
@@ -194,4 +212,10 @@
             </div>
         </div>
     {% endfor %}
+
+    {% block productTrackingDetails %}
+        {% if trackedItems is not empty %}
+            {% widget 'ProductTrackingDetailsWidget' args [trackedItems] only %}{% endwidget %}
+        {% endif %}
+    {% endblock %}
 {% endblock %}
