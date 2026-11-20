@@ -96,6 +96,10 @@
             {% widget 'SetMultiFactorAuthMenuItemWidget' args [data.activePage] only %}{% endwidget %}
         {% endif %}
 
+        {% if widgetGlobalExists('AgenticCommerceMenuItemWidget') %}
+            {% widget 'AgenticCommerceMenuItemWidget' args [data.activePage] only %}{% endwidget %}
+        {% endif %}
+
         {% widget 'SspListMenuItemWidget' args [data.activePage] only %}{% endwidget %}
     </ul>
 {% endblock %}
